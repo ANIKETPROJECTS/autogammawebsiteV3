@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { AnimatePresence, animate, motion, useInView, useMotionValue, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { ArrowRight, Star, Shield, Zap, Trophy, CheckCircle2, MapPin, Phone, Mail, Loader2, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -168,6 +168,32 @@ function CarouselContent() {
         ))}
       </div>
     </div>
+  );
+}
+
+function AnimatedMetricValue({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const valueRef = useRef<HTMLParagraphElement>(null);
+  const isInView = useInView(valueRef, { once: true, margin: "-40px" });
+  const count = useMotionValue(0);
+  const displayValue = useTransform(count, (latest) =>
+    Math.round(latest).toLocaleString("en-US")
+  );
+
+  useEffect(() => {
+    if (!isInView) return;
+    const controls = animate(count, value, { duration: 1.6, ease: "easeOut" });
+    return () => controls.stop();
+  }, [count, isInView, value]);
+
+  return (
+    <p
+      ref={valueRef}
+      className="font-poppins text-4xl sm:text-5xl font-semibold leading-none text-white"
+    >
+      <motion.span aria-hidden="true">{displayValue}</motion.span>
+      <span aria-hidden="true">{suffix}</span>
+      <span className="sr-only">{`${value.toLocaleString("en-US")}${suffix}`}</span>
+    </p>
   );
 }
 
@@ -394,6 +420,37 @@ export default function Home() {
                     className="block h-auto w-full"
                   />
                 </figure>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Business Impact */}
+      <section id="our-impact" className="py-4 md:py-6 bg-neutral-950">
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={staggerFast}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {[
+              { value: 5000, suffix: "+", label: "Customers served" },
+              { value: 8000, suffix: "+", label: "Vehicles serviced" },
+              { value: 5, suffix: "", label: "Years of experience" },
+              { value: 25, suffix: "+", label: "Service categories" },
+            ].map((metric) => (
+              <motion.article
+                key={metric.label}
+                variants={fadeInUp}
+                className="border-[0.3px] border-primary/50 bg-neutral-900/40 px-5 py-6 text-center"
+              >
+                <AnimatedMetricValue value={metric.value} suffix={metric.suffix} />
+                <p className="mt-3 font-poppins text-sm sm:text-base text-white/70">
+                  {metric.label}
+                </p>
               </motion.article>
             ))}
           </motion.div>

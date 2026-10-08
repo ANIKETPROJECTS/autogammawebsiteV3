@@ -1,1 +1,2 @@
 - [Package firewall recovery](package-firewall.md) — updating a parent dependency may retain a blocked transitive package from the imported lockfile.
+- [Auto Gamma KPI claims](business-kpi-claims.md) — preserve the user-supplied customer, vehicle, and experience figures as marketing claims.
