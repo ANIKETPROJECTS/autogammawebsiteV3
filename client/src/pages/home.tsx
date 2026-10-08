@@ -344,9 +344,7 @@ export default function Home() {
             className="text-center mb-4 md:mb-5"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
-              <span className="underline decoration-primary decoration-[1px] underline-offset-[6px]">
-                Celebrity Favorites &amp; Reviews
-              </span>
+              Celebrity Favorites &amp; Reviews
             </h2>
           </motion.div>
 
@@ -400,9 +398,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white"
             >
-              <span className="underline decoration-primary decoration-[1px] underline-offset-[6px]">
-                Our Craft &amp; Expertise
-              </span>
+              Our Craft &amp; Expertise
             </motion.h2>
           </motion.div>
 
