@@ -78,8 +78,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         { name: "PAINT PROTECTION FILM", href: "/ppf" },
       ]
     },
-    { name: "BLOGS", href: "/blogs" },
-    { name: "WARRANTY", href: "/warranty" },
   ];
 
   const handleBookNow = () => {

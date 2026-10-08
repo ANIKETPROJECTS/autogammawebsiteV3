@@ -14,7 +14,7 @@ Contact, booking, and warranty requests use SMTP email. Configure `EMAIL_USER` a
 
 ### Preview verification
 
-There is no Admin panel in the imported app. Open `/` and use the navigation to open About Us, Services, and Warranty. Expected: the header and pages render; `/warranty` shows the customer and vehicle details form. Empty API form requests are rejected with HTTP 400. The imported homepage MOV video appeared blank during screenshot verification; browser-compatible playback remains a follow-up.
+There is no Admin panel in the imported app. Open `/` and use the navigation to open About Us and Services. Expected: the header and these pages render. Blogs has no page route, and the public Warranty page and registration form have been removed. The imported homepage MOV video appeared blank during screenshot verification; browser-compatible playback remains a follow-up.
 
 ## Overview
 

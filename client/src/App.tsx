@@ -11,7 +11,6 @@ import About from "@/pages/about";
 import PPF from "@/pages/ppf";
 import Services from "@/pages/services";
 import ServiceDetail from "@/pages/service-detail";
-import Warranty from "@/pages/warranty";
 import { useEffect } from "react";
 
 const pageVariants = {
@@ -84,9 +83,6 @@ function Router() {
           </Route>
           <Route path="/service/:slug">
             <AnimatedRoute component={ServiceDetail} />
-          </Route>
-          <Route path="/warranty">
-            <AnimatedRoute component={Warranty} />
           </Route>
           <Route>
             <AnimatedRoute component={NotFound} />
