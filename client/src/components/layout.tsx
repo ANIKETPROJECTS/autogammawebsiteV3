@@ -77,22 +77,40 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     },
   ];
 
-  const handleBookNow = () => {
+  const headerSectionLinks = [
+    { name: "ESTIMATE CALCULATOR", sectionId: "service-price-calculator" },
+    { name: "CONTACT US", sectionId: "contact" },
+  ];
+
+  const handleSectionNavigation = (sectionId: string) => {
     setIsMobileMenuOpen(false);
+
+    const scrollToTarget = (attempt = 0) => {
+      const target = document.getElementById(sectionId);
+      if (!target) {
+        if (attempt < 20) window.setTimeout(() => scrollToTarget(attempt + 1), 50);
+        return;
+      }
+
+      const headerHeight = document.querySelector("header")?.getBoundingClientRect().height ?? 0;
+      const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - 12;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    };
+
     if (location !== "/") {
       setLocation("/");
-      setTimeout(() => {
-        const contactSection = document.getElementById("contact");
-        if (contactSection) {
-          contactSection.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
+      window.setTimeout(() => scrollToTarget(), 50);
     } else {
-      const contactSection = document.getElementById("contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth" });
-      }
+      scrollToTarget();
     }
+  };
+
+  const handleBookNow = () => {
+    handleSectionNavigation("contact");
   };
 
   return (
@@ -145,7 +163,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-14">
+            <nav className="hidden lg:flex items-center gap-8 xl:gap-12">
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
                   <Link 
@@ -178,6 +196,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   )}
                 </div>
               ))}
+              {headerSectionLinks.map((link) => (
+                <button
+                  key={link.sectionId}
+                  type="button"
+                  onClick={() => handleSectionNavigation(link.sectionId)}
+                  className="relative group cursor-pointer py-2 flex items-center gap-1 border-0 bg-transparent"
+                >
+                  <span className="text-sm font-medium tracking-wide transition-colors text-white font-sora">
+                    {link.name}
+                  </span>
+                  <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 ease-out group-hover:w-full" />
+                </button>
+              ))}
             </nav>
 
             {/* Service Enquiry Button */}
@@ -209,7 +240,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-black/95 pt-32 px-4 lg:hidden flex flex-col gap-6 items-center"
+            className="fixed inset-0 z-40 flex flex-col items-center gap-6 overflow-y-auto bg-black/95 px-4 pb-8 pt-32 lg:hidden"
           >
             {navLinks.map((link) => (
               <Link 
@@ -223,6 +254,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   location === link.href ? "w-full" : "w-0 group-hover:w-full"
                 }`}></span>
               </Link>
+            ))}
+            {headerSectionLinks.map((link) => (
+              <button
+                key={link.sectionId}
+                type="button"
+                onClick={() => handleSectionNavigation(link.sectionId)}
+                className="relative group cursor-pointer py-2 font-poppins text-lg font-bold text-white"
+              >
+                {link.name}
+                <span className="absolute bottom-0 left-0 h-1 w-0 bg-primary transition-all duration-300 ease-out group-hover:w-full" />
+              </button>
             ))}
             <Button className="bg-primary w-full max-w-xs mt-6 font-bold text-white font-poppins uppercase" onClick={handleBookNow}>
               SERVICE ENQUIRY
