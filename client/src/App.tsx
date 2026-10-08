@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import NotFound from "@/pages/not-found";
 import Layout from "@/components/layout";
 import Home from "@/pages/home";
-import About from "@/pages/about";
 import PPF from "@/pages/ppf";
 import Services from "@/pages/services";
 import ServiceDetail from "@/pages/service-detail";
@@ -72,9 +71,6 @@ function Router() {
         <Switch key={location}>
           <Route path="/">
             <AnimatedRoute component={Home} />
-          </Route>
-          <Route path="/about">
-            <AnimatedRoute component={About} />
           </Route>
           <Route path="/ppf">
             <AnimatedRoute component={PPF} />

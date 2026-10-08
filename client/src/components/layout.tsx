@@ -63,7 +63,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navLinks = [
     { name: "HOME", href: "/" },
-    { name: "ABOUT US", href: "/about" },
+    { name: "ABOUT US", href: "/about", disabled: true },
     { 
       name: "SERVICES", 
       href: "/services",
@@ -166,19 +166,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <nav className="hidden lg:flex items-center gap-8 xl:gap-12">
               {navLinks.map((link) => (
                 <div key={link.name} className="relative group">
-                  <Link 
-                    href={link.href}
-                    className="relative group cursor-pointer py-2 flex items-center gap-1"
-                  >
-                    <span className="text-sm font-medium tracking-wide transition-colors text-white font-sora">
+                  {link.disabled ? (
+                    <span
+                      aria-disabled="true"
+                      className="flex cursor-default select-none items-center gap-1 py-2 text-sm font-medium tracking-wide text-white font-sora"
+                    >
                       {link.name}
                     </span>
-                    {link.submenu && <ChevronDown size={14} className="text-white" />}
-                  </Link>
-                  {/* Sliding red underline on hover */}
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ease-out ${
-                    location === link.href ? "w-full" : "w-0 group-hover:w-full"
-                  }`}></span>
+                  ) : (
+                    <Link 
+                      href={link.href}
+                      className="relative group cursor-pointer py-2 flex items-center gap-1"
+                    >
+                      <span className="text-sm font-medium tracking-wide transition-colors text-white font-sora">
+                        {link.name}
+                      </span>
+                      {link.submenu && <ChevronDown size={14} className="text-white" />}
+                    </Link>
+                  )}
+                  {!link.disabled && (
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ease-out ${
+                      location === link.href ? "w-full" : "w-0 group-hover:w-full"
+                    }`}></span>
+                  )}
                   
                   {/* Services Dropdown */}
                   {link.submenu && (
@@ -243,17 +253,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="fixed inset-0 z-40 flex flex-col items-center gap-6 overflow-y-auto bg-black/95 px-4 pb-8 pt-32 lg:hidden"
           >
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href}
-                className="relative group text-lg font-bold text-white cursor-pointer py-2 font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
-                <span className={`absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300 ease-out ${
-                  location === link.href ? "w-full" : "w-0 group-hover:w-full"
-                }`}></span>
-              </Link>
+              link.disabled ? (
+                <span
+                  key={link.name}
+                  aria-disabled="true"
+                  className="cursor-default select-none py-2 font-poppins text-lg font-bold text-white"
+                >
+                  {link.name}
+                </span>
+              ) : (
+                <Link 
+                  key={link.name} 
+                  href={link.href}
+                  className="relative group text-lg font-bold text-white cursor-pointer py-2 font-poppins"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                  <span className={`absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300 ease-out ${
+                    location === link.href ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
+                </Link>
+              )
             ))}
             {headerSectionLinks.map((link) => (
               <button
@@ -339,7 +359,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="space-y-6">
               <h4 className="text-lg font-poppins font-bold text-white uppercase">QUICK LINKS</h4>
               <ul className="space-y-3">
-                {navLinks.filter(link => !link.submenu).map((link) => (
+                {navLinks.filter(link => !link.submenu && !link.disabled).map((link) => (
                   <li key={link.name}>
                     <Link href={link.href} className="text-white hover:text-primary transition-colors flex items-center gap-2 group cursor-pointer font-poppins text-sm uppercase">
                       <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform text-primary" />
