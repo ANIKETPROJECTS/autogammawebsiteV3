@@ -1,5 +1,14 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { ArrowRight, Calculator, IndianRupee } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   formatPrice,
   serviceCategories,
@@ -20,8 +29,11 @@ const vehicleTypes = [
   "Bike",
 ];
 
-const selectClass =
-  "h-12 w-full border border-white/15 bg-[#111] px-3 font-poppins text-sm text-white outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-45";
+const selectTriggerClass =
+  "h-11 w-full rounded-lg border-white/10 bg-black/50 font-poppins text-[17px] leading-5 text-white data-[placeholder]:text-white/45 focus:ring-1 focus:ring-primary";
+
+const inputClass =
+  "h-11 rounded-lg border-white/10 bg-black/50 font-poppins text-[17px] leading-5 text-white placeholder:text-white/45 focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary";
 
 function matchesPpfVehicle(rowVehicle: string, selectedVehicle: string) {
   if (rowVehicle === selectedVehicle) return true;
@@ -56,6 +68,10 @@ export default function ServicePriceCalculator() {
   const [categoryId, setCategoryId] = useState("");
   const [serviceKey, setServiceKey] = useState("");
   const [ppfProductName, setPpfProductName] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [revealAttempted, setRevealAttempted] = useState(false);
+  const [hasRevealedPrice, setHasRevealedPrice] = useState(false);
 
   const availableCategories = useMemo(
     () =>
@@ -85,12 +101,28 @@ export default function ServicePriceCalculator() {
     : undefined;
   const selectedTier = getServiceTier(selectedService, vehicle);
   const hasCalculatedPrice = isExteriorPpf ? Boolean(selectedPpfPrice) : Boolean(selectedTier);
+  const canRevealPrice = Boolean(hasCalculatedPrice && selectedItem && vehicle);
+
+  const resetPriceGate = () => {
+    setRevealAttempted(false);
+    setHasRevealedPrice(false);
+  };
 
   const resetForVehicle = (nextVehicle: string) => {
     setVehicle(nextVehicle);
     setCategoryId("");
     setServiceKey("");
     setPpfProductName("");
+    resetPriceGate();
+  };
+
+  const handleRevealPrice = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setRevealAttempted(true);
+
+    const validName = customerName.trim().length >= 2;
+    const validPhone = customerPhone.replace(/\D/g, "").length >= 10;
+    if (validName && validPhone) setHasRevealedPrice(true);
   };
 
   return (
@@ -114,80 +146,210 @@ export default function ServicePriceCalculator() {
 
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="border border-primary/30 bg-white/[0.035] p-4 sm:p-6">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="flex flex-col gap-2 font-poppins text-xs font-medium text-white/75">
-                Vehicle type
-                <select
-                  className={selectClass}
-                  value={vehicle}
-                  onChange={(event) => resetForVehicle(event.target.value)}
-                >
-                  <option value="">Choose your vehicle</option>
-                  {vehicleTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
+              <div className="flex min-w-0 flex-col gap-2">
+                <label id="calculator-vehicle-label" className="font-poppins text-sm font-medium text-white">
+                  Vehicle type
+                </label>
+                <Select value={vehicle} onValueChange={resetForVehicle}>
+                  <SelectTrigger
+                    aria-labelledby="calculator-vehicle-label"
+                    className={selectTriggerClass}
+                    data-testid="select-calculator-vehicle"
+                  >
+                    <SelectValue placeholder="Choose your vehicle" />
+                  </SelectTrigger>
+                  <SelectContent className="border-white/10 bg-neutral-900 text-white">
+                    {vehicleTypes.map((type) => (
+                      <SelectItem
+                        key={type}
+                        value={type}
+                        className="font-poppins focus:bg-white/10 focus:text-white"
+                      >
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-              <label className="flex flex-col gap-2 font-poppins text-xs font-medium text-white/75">
-                Service category
-                <select
-                  className={selectClass}
+              <div className="flex min-w-0 flex-col gap-2">
+                <label id="calculator-category-label" className="font-poppins text-sm font-medium text-white">
+                  Service category
+                </label>
+                <Select
                   value={categoryId}
                   disabled={!vehicle}
-                  onChange={(event) => {
-                    setCategoryId(event.target.value);
+                  onValueChange={(nextCategoryId) => {
+                    setCategoryId(nextCategoryId);
                     setServiceKey("");
                     setPpfProductName("");
+                    resetPriceGate();
                   }}
                 >
-                  <option value="">Choose a category</option>
-                  {availableCategories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  <SelectTrigger
+                    aria-labelledby="calculator-category-label"
+                    className={selectTriggerClass}
+                    data-testid="select-calculator-category"
+                  >
+                    <SelectValue placeholder="Choose a category" />
+                  </SelectTrigger>
+                  <SelectContent className="border-white/10 bg-neutral-900 text-white">
+                    {availableCategories.map((category) => (
+                      <SelectItem
+                        key={category.id}
+                        value={category.id}
+                        className="font-poppins focus:bg-white/10 focus:text-white"
+                      >
+                        {category.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-              <label className="flex flex-col gap-2 font-poppins text-xs font-medium text-white/75">
-                Service
-                <select
-                  className={selectClass}
+              <div className="flex min-w-0 flex-col gap-2 sm:col-span-2">
+                <label id="calculator-service-label" className="font-poppins text-sm font-medium text-white">
+                  Service
+                </label>
+                <Select
                   value={serviceKey}
                   disabled={!categoryId}
-                  onChange={(event) => {
-                    setServiceKey(event.target.value);
+                  onValueChange={(nextServiceKey) => {
+                    setServiceKey(nextServiceKey);
                     setPpfProductName("");
+                    resetPriceGate();
                   }}
                 >
-                  <option value="">Choose a service</option>
-                  {availableServices.map((item) => (
-                    <option key={getItemKey(item)} value={getItemKey(item)}>
-                      {item.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  <SelectTrigger
+                    aria-labelledby="calculator-service-label"
+                    className={selectTriggerClass}
+                    data-testid="select-calculator-service"
+                  >
+                    <SelectValue placeholder="Choose a service" />
+                  </SelectTrigger>
+                  <SelectContent className="border-white/10 bg-neutral-900 text-white">
+                    {availableServices.map((item) => (
+                      <SelectItem
+                        key={getItemKey(item)}
+                        value={getItemKey(item)}
+                        className="font-poppins focus:bg-white/10 focus:text-white"
+                      >
+                        {item.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
               {isExteriorPpf && (
-                <label className="flex flex-col gap-2 font-poppins text-xs font-medium text-white/75">
-                  PPF film
-                  <select
-                    className={selectClass}
+                <div className="flex min-w-0 flex-col gap-2 sm:col-span-2">
+                  <label id="calculator-ppf-label" className="font-poppins text-sm font-medium text-white">
+                    PPF film
+                  </label>
+                  <Select
                     value={ppfProductName}
-                    onChange={(event) => setPpfProductName(event.target.value)}
+                    onValueChange={(nextProduct) => {
+                      setPpfProductName(nextProduct);
+                      resetPriceGate();
+                    }}
                   >
-                    <option value="">Choose a film</option>
-                    {availablePpfProducts.map((product) => (
-                      <option key={product.name} value={product.name}>
-                        {product.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                    <SelectTrigger
+                      aria-labelledby="calculator-ppf-label"
+                      className={selectTriggerClass}
+                      data-testid="select-calculator-ppf"
+                    >
+                      <SelectValue placeholder="Choose a film" />
+                    </SelectTrigger>
+                    <SelectContent className="border-white/10 bg-neutral-900 text-white">
+                      {availablePpfProducts.map((product) => (
+                        <SelectItem
+                          key={product.name}
+                          value={product.name}
+                          className="font-poppins focus:bg-white/10 focus:text-white"
+                        >
+                          {product.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {canRevealPrice && (
+                <form
+                  onSubmit={handleRevealPrice}
+                  className="grid gap-4 border-t border-white/10 pt-4 sm:col-span-2 sm:grid-cols-2"
+                >
+                  <div className="flex min-w-0 flex-col gap-2">
+                    <label htmlFor="calculator-customer-name" className="font-poppins text-sm font-medium text-white">
+                      Name
+                    </label>
+                    <Input
+                      id="calculator-customer-name"
+                      autoComplete="name"
+                      value={customerName}
+                      onChange={(event) => {
+                        setCustomerName(event.target.value);
+                        resetPriceGate();
+                      }}
+                      placeholder="Your full name"
+                      className={inputClass}
+                      aria-invalid={revealAttempted && customerName.trim().length < 2}
+                      aria-describedby={
+                        revealAttempted && customerName.trim().length < 2
+                          ? "calculator-name-error"
+                          : undefined
+                      }
+                    />
+                    {revealAttempted && customerName.trim().length < 2 && (
+                      <p id="calculator-name-error" className="font-poppins text-xs text-red-400">
+                        Enter at least 2 characters.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex min-w-0 flex-col gap-2">
+                    <label htmlFor="calculator-customer-phone" className="font-poppins text-sm font-medium text-white">
+                      Contact number
+                    </label>
+                    <Input
+                      id="calculator-customer-phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      value={customerPhone}
+                      onChange={(event) => {
+                        setCustomerPhone(event.target.value);
+                        resetPriceGate();
+                      }}
+                      placeholder="Your mobile number"
+                      className={inputClass}
+                      aria-invalid={revealAttempted && customerPhone.replace(/\D/g, "").length < 10}
+                      aria-describedby={
+                        revealAttempted && customerPhone.replace(/\D/g, "").length < 10
+                          ? "calculator-phone-error"
+                          : undefined
+                      }
+                    />
+                    {revealAttempted && customerPhone.replace(/\D/g, "").length < 10 && (
+                      <p id="calculator-phone-error" className="font-poppins text-xs text-red-400">
+                        Enter a number with at least 10 digits.
+                      </p>
+                    )}
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="h-11 rounded-none bg-primary font-poppins text-base font-bold text-white hover:bg-primary/90 sm:col-span-2"
+                    data-testid="button-reveal-price"
+                  >
+                    Reveal price
+                  </Button>
+                  <p className="font-poppins text-xs leading-relaxed text-white/45 sm:col-span-2">
+                    Your details unlock the estimate here; this calculator does not send or store them.
+                  </p>
+                </form>
               )}
             </div>
           </div>
@@ -197,7 +359,7 @@ export default function ServicePriceCalculator() {
             aria-live="polite"
             role="status"
           >
-            {hasCalculatedPrice && selectedItem && vehicle ? (
+            {hasCalculatedPrice && selectedItem && vehicle && hasRevealedPrice ? (
               <>
                 <div className="mb-4 flex items-center gap-2 text-primary">
                   <Calculator size={18} aria-hidden="true" />
@@ -249,6 +411,11 @@ export default function ServicePriceCalculator() {
                   Enquire about this service <ArrowRight size={14} aria-hidden="true" />
                 </a>
               </>
+            ) : canRevealPrice ? (
+              <CalculatorPrompt
+                title="Your estimate is ready"
+                description="Enter your name and contact number, then select Reveal price to view your estimate."
+              />
             ) : isExteriorPpf && selectedItem ? (
               <CalculatorPrompt
                 title="Choose a PPF film"
