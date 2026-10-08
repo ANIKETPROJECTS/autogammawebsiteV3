@@ -645,7 +645,7 @@ export default function Home() {
                   <Button 
                     type="submit"
                     disabled={mutation.isPending}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-[17px] leading-5 normal-case tracking-normal rounded-full"
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-[17px] leading-5 normal-case tracking-normal rounded-none"
                     data-testid="button-submit-contact"
                   >
                     {mutation.isPending ? (
@@ -656,7 +656,7 @@ export default function Home() {
                       "Submit Enquiry"
                     )}
                   </Button>
-                  <p className="text-center text-white italic text-sm -skew-x-6">
+                  <p className="text-center text-white italic text-base leading-5 -skew-x-6">
                     "Your car deserves perfection, and we deliver it with precision."
                   </p>
                 </form>
