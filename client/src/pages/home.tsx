@@ -23,12 +23,14 @@ import detailingImage from "@assets/generated_images/car_detailing_polishing_act
 import ppfImage from "@assets/generated_images/paint_protection_film_application.png";
 import ppfVideo from "@assets/Untitled_design_(4)_1766130916239.mp4";
 import interiorImage from "@assets/generated_images/luxury_car_interior_leather_detailing.png";
-import videoGlimpse1 from "@assets/SaveVid.Net_AQMUpHxmxuNGcHwkfVjOZ0Mkr1NrOCG6OIhZeH-eqN1FJTSHf-_1766132377158.mp4";
-import videoGlimpse2 from "@assets/SaveVid.Net_AQPH07f6oeLwF1rITfpGkiIfbeYZ6l8fG46D8tmEg0if0HS0qe_1766132427707.mp4";
-import videoGlimpse3 from "@assets/SaveVid.Net_AQOsV5pDj_W087f3UYP9VhECz3UgKbQ1xIiqsT0ZT3t8uOfysd_1766132465924.mp4";
-import videoGlimpse4 from "@assets/SaveVid.Net_AQOYHI_R4snfehrTDo_tJJSmk7uEZK6nP9rnbYOT6mkEH4IuXJ_1766132518974.mp4";
-import videoGlimpse5 from "@assets/SaveVid.Net_AQP82_8gVpK5rtDdyY5gRX-zzuC3vza-INl2HmFNIQjmRs1gNe_1766132590627.mp4";
-import videoGlimpse6 from "@assets/SaveVid.Net_AQNDoeYV9HVDcEuo094Cyb5Mv_nf3CKBUNi238yrQ_m-wWVngl_1766132646182.mp4";
+import workVideo1 from "@assets/SaveClip.App_AQMd6NABHBJJB4C0siIEzy325gx5Jd-sBiXBdbMmWREu0866B_1791486691994.mp4";
+import workVideo2 from "@assets/SaveClip.App_AQNFx3Dph_SB8R8atX1DtpJjRrcBW5EFprMZokhn_bsHw4tb0_1791486691997.mp4";
+import workVideo3 from "@assets/SaveClip.App_AQObMcBJiE4eQsQBDIUo5-ZaQgngHhpPvne1PJmfEx9PD5hy2_1791486691997.mp4";
+import workVideo4 from "@assets/SaveClip.App_AQPgepV2f1Sw5YIojJLepPaxeYmaPJQAhuDrslzyIXLqh5Joh_1791486691997.mp4";
+import workVideo5 from "@assets/SaveClip.App_AQPGlq3p0cduWKte2kUPn1hQaW6Uw5V13N33r-7jF8NEoGNtc_1791486691998.mp4";
+import workVideo6 from "@assets/SaveClip.App_AQPi_hEtHigDjfu5KiDB0d2jFnvA70NJlen1e3c0qZX_1NurP_1791486691998.mp4";
+import workVideo7 from "@assets/SaveClip.App_AQPoOh-6brl75mSuE4IRefFE0eKyF1-CVjbxS8V0_VsAROTSp_1791486691998.mp4";
+import workVideo8 from "@assets/SaveClip.App_AQPttbfVXQQ01MctDQmRZqEdILAe2r4oXe6Syp0kToYSOUnfv_1791486691999.mp4";
 import clientVideo1 from "@assets/SaveClip.App_AQMStN2KrwenyUCIS35TWX8gnXh89d5NiK3K2agkcqDzwlkgO_1791474111888.mp4";
 import clientVideo2 from "@assets/SaveClip.App_AQNqjeKMFRvYari-h4SL9gJZiqyVbWT0VDDQLle-8mo7vcSgB_1791474116619.mp4";
 import clientVideo3 from "@assets/SaveClip.App_AQNsQkBr0Qcoucd6v4RlMvm-L5X9xTO6RZQl_XCG7hnlx_R3O_1791474258371.mp4";
@@ -414,47 +416,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Auto Glimpses Videos */}
-      <section className="py-24 bg-neutral-900 relative">
-         <div className="container px-4 mx-auto">
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={fadeInUp}
-              className="text-center mb-16 space-y-4"
-            >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-sora uppercase tracking-wider">
-                <span className="text-primary">TRANSFORMATION</span> <span className="text-white">GALLERY</span>
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto font-poppins">
-                Witness the stunning transformations we've created for our valued clients. Premium detailing that elevates every vehicle to perfection.
-              </p>
-            </motion.div>
+      {/* Our Work in Action */}
+      <section id="work-in-action" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative">
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeInUp}
+            className="text-center mb-4 md:mb-5"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
+              Our Work in Action
+            </h2>
+          </motion.div>
 
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={stagger}
-              className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {[videoGlimpse1, videoGlimpse2, videoGlimpse3, videoGlimpse4, videoGlimpse5, videoGlimpse6].map((video, i) => (
-                <motion.div key={i} variants={fadeInUp}>
-                  <div className="relative w-full aspect-video group overflow-hidden rounded-2xl hover-lift">
-                    <video 
-                      src={video}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-         </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={stagger}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-4 gap-y-2 sm:gap-y-3"
+          >
+            {[
+              workVideo1,
+              workVideo2,
+              workVideo3,
+              workVideo4,
+              workVideo5,
+              workVideo6,
+              workVideo7,
+              workVideo8,
+            ].map((video, index) => (
+              <motion.article key={video} variants={fadeInUp} className="min-w-0">
+                <div className="relative aspect-[9/17] overflow-hidden border-[0.3px] border-primary/50 bg-neutral-900">
+                  <video
+                    src={video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    preload="metadata"
+                    aria-label={`Work in action video ${index + 1}`}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
       {/* Contact Section */}
