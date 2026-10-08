@@ -15,6 +15,7 @@ import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { contactFormSchema, type ContactFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { socialLinks } from "@/lib/social-links";
 
 import heroVideo from "@assets/copy_3F782478-1E5B-4E71-A065-C58D821ADA74_(1)_(1)_1786510568554.mov";
 import heroImage from "@assets/generated_images/cinematic_luxury_dark_car_hero_background_with_red_accents.png";
@@ -666,13 +667,13 @@ export default function Home() {
                 <div>
                   <h4 className="text-white font-poppins font-bold text-base mb-4">Connect With Us</h4>
                   <div className="flex gap-3">
-                    <a href="https://facebook.com/autogamma" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-facebook">
+                    <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-facebook">
                       <img src={facebookIcon} alt="Facebook" className="w-8 h-8 object-contain" />
                     </a>
-                    <a href="https://instagram.com/autogamma" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-instagram">
+                    <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-instagram">
                       <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
                     </a>
-                    <a href="https://youtube.com/autogamma" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-youtube">
+                    <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-youtube">
                       <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
                     </a>
                   </div>

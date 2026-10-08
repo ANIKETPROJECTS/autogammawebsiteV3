@@ -7,6 +7,7 @@ import autoGammaLogo from "@assets/image_1765169951823.png";
 import facebookIcon from "@assets/facebook_1766217005798.png";
 import instagramIcon from "@assets/—Pngtree—instagram_icon_instagram_logo_vector_3584852_1766216113430.png";
 import youtubeIcon from "@assets/youtube_1766216255122.png";
+import { socialLinks } from "@/lib/social-links";
 
 function TireSVG({ className }: { className?: string }) {
   return (
@@ -123,13 +124,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             
             {/* Social Media Icons */}
             <div className="hidden md:flex items-center gap-4">
-              <a href="#" className="w-6 h-6 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="Facebook">
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="w-6 h-6 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="Facebook">
                 <img src={facebookIcon} alt="Facebook" className="w-full h-full object-contain" />
               </a>
-              <a href="#" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="Instagram">
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="Instagram">
                 <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
               </a>
-              <a href="#" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="YouTube">
+              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity" aria-label="YouTube">
                 <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
               </a>
             </div>
@@ -246,13 +247,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             
             {/* Mobile Social Icons */}
             <div className="flex items-center gap-4 mt-6">
-              <a href="#" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
                 <img src={facebookIcon} alt="Facebook" className="w-full h-full object-contain" />
               </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
                 <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
               </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
+              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
                 <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
               </a>
             </div>
@@ -283,13 +284,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 "THE REALM OF AUTOMOTIVE LUXURY AND THE TRANSFORMATIVE POWER OF PRECISION DETAILING, WHERE EVERY DETAIL MATTERS."
               </p>
               <div className="flex gap-4">
-                <a href="#" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
+                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
                   <img src={facebookIcon} alt="Facebook" className="w-full h-full object-contain" />
                 </a>
-                <a href="#" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
+                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
                   <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
                 </a>
-                <a href="#" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
+                <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
                   <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
                 </a>
               </div>
