@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { ArrowRight, Star, Shield, Zap, Trophy, CheckCircle2, MapPin, Phone, Mail, Loader2, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "wouter";
@@ -65,18 +64,6 @@ import rupeeIcon from "@assets/image_1766729223515.png";
 import toolsIcon from "@assets/image_1766729246340.png";
 import starIcon from "@assets/image_1766729264056.png";
 
-import profile1 from "@assets/stock_images/indian_professional__10ae0555.jpg";
-import profile2 from "@assets/stock_images/indian_professional__b766b1cd.jpg";
-import profile3 from "@assets/stock_images/indian_professional__c83cbdcf.jpg";
-import profile4 from "@assets/stock_images/indian_professional__06af6b2b.jpg";
-import profile5 from "@assets/stock_images/indian_professional__c76f3810.jpg";
-import profile6 from "@assets/stock_images/indian_professional__5a134d93.jpg";
-import profile7 from "@assets/stock_images/indian_professional__d8bfb386.jpg";
-import profile8 from "@assets/stock_images/indian_professional__0f632df0.jpg";
-import profile9 from "@assets/stock_images/indian_professional__1a8573a3.jpg";
-import profile10 from "@assets/stock_images/indian_professional__5fa5daa6.jpg";
-
-
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
@@ -109,16 +96,16 @@ const staggerFast = {
 function CarouselContent() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const reviewsData = [
-    { name: "Rajesh Sharma", vehicle: "BMW 7 Series", location: "Mumbai", rating: 5, text: "Absolutely incredible service! My BMW looks brand new after the ceramic coating. The attention to detail is unmatched.", image: profile1 },
-    { name: "Priya Patel", vehicle: "Mercedes C-Class", location: "Pune", rating: 5, text: "Auto Gamma transformed my car completely. The PPF installation was flawless and the team was very professional.", image: profile2 },
-    { name: "Amit Kumar", vehicle: "Audi Q5", location: "Thane", rating: 5, text: "Best detailing service in the region. They treat every car like it's their own. Highly recommended!", image: profile3 },
-    { name: "Sneha Deshmukh", vehicle: "Range Rover", location: "Navi Mumbai", rating: 5, text: "The interior deep cleaning service is outstanding. My car smells fresh and looks pristine inside.", image: profile4 },
-    { name: "Vikram Singh", vehicle: "Porsche 911", location: "Badlapur", rating: 5, text: "Premium service at reasonable prices. The ceramic coating has made my car shine like never before.", image: profile5 },
-    { name: "Ananya Reddy", vehicle: "Jaguar XF", location: "Kalyan", rating: 5, text: "Exceptional craftsmanship! The team at Auto Gamma really knows their work. Will definitely return.", image: profile6 },
-    { name: "Rohan Gupta", vehicle: "Audi A6", location: "Delhi", rating: 5, text: "Fantastic experience! The PPF application was perfect and the attention to detail was outstanding.", image: profile7 },
-    { name: "Kavya Sharma", vehicle: "BMW X5", location: "Bangalore", rating: 5, text: "The ceramic coating makes my car look showroom fresh. Highly professional team and excellent service.", image: profile8 },
-    { name: "Arjun Singh", vehicle: "Mercedes E-Class", location: "Hyderabad", rating: 5, text: "Best auto detailing service I've ever used. The interior steam cleaning was thorough and professional.", image: profile9 },
-    { name: "Pooja Nair", vehicle: "Range Rover Evoque", location: "Kochi", rating: 5, text: "Outstanding work! The paint protection film has given me peace of mind. Great team and great results.", image: profile10 },
+    { name: "Rajesh Sharma", vehicle: "BMW 7 Series", location: "Mumbai", rating: 5, text: "Absolutely incredible service! My BMW looks brand new after the ceramic coating. The attention to detail is unmatched." },
+    { name: "Priya Patel", vehicle: "Mercedes C-Class", location: "Pune", rating: 5, text: "Auto Gamma transformed my car completely. The PPF installation was flawless and the team was very professional." },
+    { name: "Amit Kumar", vehicle: "Audi Q5", location: "Thane", rating: 5, text: "Best detailing service in the region. They treat every car like it's their own. Highly recommended!" },
+    { name: "Sneha Deshmukh", vehicle: "Range Rover", location: "Navi Mumbai", rating: 5, text: "The interior deep cleaning service is outstanding. My car smells fresh and looks pristine inside." },
+    { name: "Vikram Singh", vehicle: "Porsche 911", location: "Badlapur", rating: 5, text: "Premium service at reasonable prices. The ceramic coating has made my car shine like never before." },
+    { name: "Ananya Reddy", vehicle: "Jaguar XF", location: "Kalyan", rating: 5, text: "Exceptional craftsmanship! The team at Auto Gamma really knows their work. Will definitely return." },
+    { name: "Rohan Gupta", vehicle: "Audi A6", location: "Delhi", rating: 5, text: "Fantastic experience! The PPF application was perfect and the attention to detail was outstanding." },
+    { name: "Kavya Sharma", vehicle: "BMW X5", location: "Bangalore", rating: 5, text: "The ceramic coating makes my car look showroom fresh. Highly professional team and excellent service." },
+    { name: "Arjun Singh", vehicle: "Mercedes E-Class", location: "Hyderabad", rating: 5, text: "Best auto detailing service I've ever used. The interior steam cleaning was thorough and professional." },
+    { name: "Pooja Nair", vehicle: "Range Rover Evoque", location: "Kochi", rating: 5, text: "Outstanding work! The paint protection film has given me peace of mind. Great team and great results." },
   ];
 
   useEffect(() => {
@@ -128,54 +115,51 @@ function CarouselContent() {
     return () => clearInterval(timer);
   }, []);
 
-  const itemsPerView = 4;
+  const itemsPerView = 8;
   const visibleReviews = Array.from({ length: itemsPerView }, (_, i) => 
     reviewsData[(currentIndex + i) % reviewsData.length]
   );
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {visibleReviews.map((review, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.1 }}
-          >
-            <Card className="bg-white/5 border border-white/10 h-full">
-              <CardContent className="p-6 flex flex-col h-full">
-                <div className="flex items-center gap-3 mb-4">
-                  <Avatar className="w-14 h-14 border-2 border-primary flex-shrink-0">
-                    {review.image && <AvatarImage src={review.image} alt={review.name} />}
-                    <AvatarFallback className="bg-primary text-white font-bold text-sm">
-                      {review.name.split(' ').map(n => n[0]).join('')}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 flex-1">
-                    <h4 className="text-white font-semibold text-sm">{review.name}</h4>
-                    <p className="text-white/60 text-xs">{review.vehicle}</p>
-                  </div>
+    <div className="space-y-5">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {visibleReviews.map((review) => (
+            <Card key={`${currentIndex}-${review.name}`} className="h-full rounded-none border border-white/10 bg-white/5">
+              <CardContent className="flex h-full flex-col p-6">
+                <div className="mb-4">
+                  <h4 className="text-sm font-semibold text-white">{review.name}</h4>
+                  <p className="text-xs text-white/60">{review.vehicle}</p>
                 </div>
-                <div className="flex gap-1 mb-3">
+                <div className="mb-3 flex gap-1">
                   {[...Array(review.rating)].map((_, j) => (
-                    <Star key={j} size={13} className="text-amber-400 fill-amber-400" />
+                    <Star key={j} size={13} className="fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <p className="text-white/80 text-sm leading-relaxed flex-grow mb-3">"{review.text}"</p>
-                <p className="text-white/50 text-xs flex items-center gap-1">
+                <p className="mb-3 flex-grow text-sm leading-relaxed text-white/80">"{review.text}"</p>
+                <p className="flex items-center gap-1 text-xs text-white/50">
                   <MapPin size={11} /> {review.location}
                 </p>
               </CardContent>
             </Card>
-          </motion.div>
-        ))}
-      </div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
+
       <div className="flex justify-center gap-2">
         {reviewsData.map((_, idx) => (
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
+            aria-label={`Show review set starting with ${reviewsData[idx].name}`}
+            aria-pressed={idx === currentIndex}
             className={`h-2 rounded-full transition-all ${
               idx === currentIndex ? 'bg-primary w-6' : 'bg-white/30 w-2'
             }`}
@@ -468,6 +452,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Customer Reviews */}
+      <section id="customer-reviews" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-50" />
+
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto relative z-10 font-poppins">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={fadeInUp}
+            className="text-center mb-4 md:mb-5"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
+              Customer Reviews
+            </h2>
+          </motion.div>
+
+          <CarouselContent />
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contact" className="py-24 bg-neutral-900 relative">
         <div className="container px-4 mx-auto">
@@ -681,32 +686,6 @@ export default function Home() {
               </motion.div>
             </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 bg-neutral-950 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-50" />
-
-        <div className="container px-4 mx-auto relative z-10">
-          {/* Header */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}
-            className="text-center mb-12 space-y-2"
-          >
-            <motion.h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-sora uppercase tracking-wider">
-              <span className="text-primary">Customer</span> <span className="text-white">Reviews</span>
-            </motion.h2>
-            <motion.p className="text-sm sm:text-base md:text-lg lg:text-xl text-white">
-              Real testimonials from satisfied clients across India
-            </motion.p>
-          </motion.div>
-
-          {/* Auto-Rotating Carousel */}
-          <CarouselContent />
         </div>
       </section>
 
