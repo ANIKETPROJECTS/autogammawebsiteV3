@@ -24,9 +24,8 @@ interface EmailOptions {
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   try {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-      console.log("Email credentials not configured. Email would be sent to:", options.to);
-      console.log("Subject:", options.subject);
-      return true;
+      console.error("Email delivery unavailable: configure EMAIL_USER and EMAIL_PASSWORD.");
+      return false;
     }
 
     await transporter.sendMail({

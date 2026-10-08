@@ -1,0 +1,1 @@
+- [Package firewall recovery](package-firewall.md) — updating a parent dependency may retain a blocked transitive package from the imported lockfile.

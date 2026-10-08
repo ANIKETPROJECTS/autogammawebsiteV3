@@ -1,5 +1,21 @@
 # AUTO GAMMA - Premium Auto Detailing Website
 
+## Running on Replit
+
+- Click **Run** to start the existing **Start application** workflow (`npm run dev`).
+- Express serves the API and Vite frontend together on `0.0.0.0:5000`; view the site in Preview.
+- Keep the existing React/TypeScript/Express structure. No database is required to start the current app; the storage implementation is in memory.
+- `npm run check` checks TypeScript. `npm run build` builds the frontend and server; `npm start` runs the built server.
+- Dependencies are installed using the existing npm package files. Express stays on version 4; the `proxy-addr` override requires the patched version because the imported lockfile version was blocked by the package security policy.
+
+### Email setup still required
+
+Contact, booking, and warranty requests use SMTP email. Configure `EMAIL_USER` and `EMAIL_PASSWORD` securely before expecting delivery; never put credentials in source control. Optional settings are `EMAIL_HOST` (default `smtp.gmail.com`), `EMAIL_PORT` (default `587`), and `RECIPIENT_EMAIL`. Gmail requires an app password. Restart the workflow after configuration. Without credentials, requests return a failure rather than falsely claiming delivery. Requests are not saved to a database.
+
+### Preview verification
+
+There is no Admin panel in the imported app. Open `/` and use the navigation to open About Us, Services, and Warranty. Expected: the header and pages render; `/warranty` shows the customer and vehicle details form. Empty API form requests are rejected with HTTP 400. The imported homepage MOV video appeared blank during screenshot verification; browser-compatible playback remains a follow-up.
+
 ## Overview
 
 AUTO GAMMA is a full-stack multi-page automotive website for a premium auto detailing and garage business. The application showcases a dark, metallic automotive theme with bold animations, featuring services like auto detailing, PPF (Paint Protection Film), ceramic coating, and warranty registration. Built with React, Express, and PostgreSQL, the site emphasizes visual impact with parallax effects, smooth transitions, and a premium user experience.
