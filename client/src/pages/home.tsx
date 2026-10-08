@@ -441,7 +441,7 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                  <h3 className="mb-5 font-sora text-lg md:text-xl font-semibold leading-snug text-white">
+                  <h3 className="mb-5 font-sora text-lg md:text-xl font-semibold leading-snug normal-case text-white">
                     {category.title}
                   </h3>
                   <ul className="space-y-3">
