@@ -297,25 +297,19 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative z-20 w-full"
         >
-          <div className="bg-black/90 border-t border-b border-white/10 py-4 md:py-5 overflow-hidden">
+          <div className="flex h-[50px] items-center overflow-hidden border-t border-b border-white/10 bg-black/90 md:h-[62px] lg:h-[66px]">
             <div className="w-full px-0">
               <div className="flex animate-marquee-services whitespace-nowrap">
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center gap-4 md:gap-8 px-4">
-                    {[
-                      "Washing & Quick Care",
-                      "Detailing",
-                      "Coatings & Protection",
-                      "PPF & Color Wraps",
-                      "Repair & Restoration",
-                    ].flatMap((category, index) => [
+                    {serviceCategories.flatMap((category) => [
                       <span
-                        key={category}
-                        className={`${index % 2 === 0 ? "text-primary" : "text-white"} font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base`}
+                        key={category.id}
+                        className="font-semibold uppercase leading-4 tracking-wide text-sm text-white md:text-base md:leading-5 lg:text-lg lg:leading-6"
                       >
-                        {category}
+                        {category.title}
                       </span>,
-                      <span key={`${category}-divider`} className="font-bold text-white">|</span>,
+                      <span key={`${category.id}-divider`} className="font-bold text-white">|</span>,
                     ])}
                   </div>
                 ))}

@@ -1,3 +1,4 @@
 - [Package firewall recovery](package-firewall.md) — updating a parent dependency may retain a blocked transitive package from the imported lockfile.
 - [Auto Gamma KPI claims](business-kpi-claims.md) — preserve the user-supplied customer, vehicle, and experience figures as marketing claims.
 - [Homepage hero video](homepage-video-performance.md) — preserve original video quality and use deferred playback to reduce work while scrolling.
+- [Hero service ticker sizing](hero-service-ticker.md) — enlarge ticker text without increasing its established height; keep the ticker labels white.
