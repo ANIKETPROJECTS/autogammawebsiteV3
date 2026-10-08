@@ -132,7 +132,7 @@ function CarouselContent() {
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
         >
           {visibleReviews.map((review) => (
-            <Card key={`${currentIndex}-${review.name}`} className="h-full rounded-none border border-white/10 bg-white/5">
+            <Card key={`${currentIndex}-${review.name}`} className="h-full rounded-none border-[0.3px] border-primary/50 bg-white/5">
               <CardContent className="flex h-full flex-col p-6">
                 <div className="mb-4">
                   <h4 className="text-sm font-semibold text-white">{review.name}</h4>
