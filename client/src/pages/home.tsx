@@ -297,7 +297,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative z-20 w-full"
         >
-          <div className="flex h-[50px] items-center overflow-hidden border-t border-b border-white/10 bg-black/90 md:h-[62px] lg:h-[66px]">
+          <div className="flex h-[40px] items-center overflow-hidden border-t border-b border-white/10 bg-black/90 md:h-[48px] lg:h-[52px]">
             <div className="w-full px-0">
               <div className="flex animate-marquee-services whitespace-nowrap">
                 {[...Array(2)].map((_, i) => (

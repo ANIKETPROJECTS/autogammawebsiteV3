@@ -3,8 +3,8 @@ name: Hero service ticker sizing
 description: Persistent visual constraints for the homepage hero services marquee.
 ---
 
-Keep the hero service ticker strip at its established vertical height when increasing its text size. All ticker labels must remain white.
+Keep the hero service ticker compact and all labels white. The user has asked to reduce its height further without reducing the larger text size.
 
-**Why:** The user explicitly corrected a prior change that enlarged the strip while increasing font size.
+**Why:** The user repeatedly corrected unintended height increases and most recently requested a shorter strip while preserving the text size.
 
-**How to apply:** Preserve the existing fixed heights across breakpoints and adjust line height or centering instead of adding vertical space.
+**How to apply:** Adjust the strip container height while preserving the text size and readable vertical centering. Do not restore the former height or shrink/recolor the text unless asked.
