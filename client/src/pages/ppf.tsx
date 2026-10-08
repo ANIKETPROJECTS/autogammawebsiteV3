@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import ppfImage from "@assets/generated_images/paint_protection_film_application.png";
+import { useMemo, useState } from "react";
 import ppfAppImage from "@assets/image_1766730418736.png";
 import shieldIcon from "@assets/image_1766729201482.png";
 import rupeeIcon from "@assets/image_1766729223515.png";
 import toolsIcon from "@assets/image_1766729246340.png";
 import starIcon from "@assets/image_1766729264056.png";
+import { formatPrice } from "@/lib/service-catalog-data";
+import { ppfProducts, ppfVehicleTypes } from "@/lib/ppf-pricing-data";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -32,6 +33,21 @@ const stagger = {
 } as const;
 
 export default function PPF() {
+  const [vehicleFilter, setVehicleFilter] = useState("All vehicle types");
+  const visibleProducts = useMemo(
+    () =>
+      ppfProducts
+        .map((product) => ({
+          ...product,
+          rows:
+            vehicleFilter === "All vehicle types"
+              ? product.rows
+              : product.rows.filter((row) => row.vehicle === vehicleFilter),
+        }))
+        .filter((product) => product.rows.length > 0),
+    [vehicleFilter],
+  );
+
   return (
     <div className="pt-24 pb-20 bg-background min-h-screen">
       {/* Top Section / Hero */}
@@ -165,163 +181,73 @@ export default function PPF() {
         </motion.div>
       </section>
 
-      {/* Pricing Packages */}
-      <section className="container px-4 mx-auto pb-20">
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl font-sora font-semibold text-center text-white mb-12 uppercase tracking-widest"
-        >
-          PPF PACKAGES & PRICING
-        </motion.h2>
-        
-        <div className="space-y-16">
-          {/* Elite Package */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={stagger}
-            className="space-y-6"
-          >
-            <motion.div variants={fadeInUp} className="flex items-center gap-4 mb-8">
-              <div className="h-[1px] bg-white/20 flex-grow"></div>
-              <h3 className="text-2xl font-sora font-semibold text-primary uppercase tracking-widest">Elite Package</h3>
-              <div className="h-[1px] bg-white/20 flex-grow"></div>
-            </motion.div>
-
-            <motion.div 
-              variants={stagger}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
-              <motion.div variants={scaleIn}>
-                <PricingCard 
-                  title="Small Cars" 
-                  items={[
-                    { label: "TPU 5 Years", price: "₹55,000" },
-                    { label: "TPU 5 Years Matt", price: "₹60,000" },
-                    { label: "TPU 7 Years", price: "₹80,000" },
-                    { label: "TPU 10 Years", price: "₹95,000" },
-                  ]} 
-                />
-              </motion.div>
-              
-              <motion.div variants={scaleIn}>
-                <PricingCard 
-                  title="Hatchback / Sedan" 
-                  items={[
-                    { label: "TPU 5 Years", price: "₹60,000" },
-                    { label: "Matt", price: "₹70,000" },
-                    { label: "7 Years", price: "₹85,000" },
-                    { label: "10 Years", price: "₹1,05,000" },
-                  ]} 
-                />
-              </motion.div>
-
-              <motion.div variants={scaleIn}>
-                <PricingCard 
-                  title="Mid Sedan / Compact SUV" 
-                  items={[
-                    { label: "5 Years", price: "₹70,000" },
-                    { label: "Matt", price: "₹75,000" },
-                    { label: "7 Years", price: "₹90,000" },
-                    { label: "10 Years", price: "₹1,12,000" },
-                  ]} 
-                />
-              </motion.div>
-
-              <motion.div variants={scaleIn}>
-                <PricingCard 
-                  title="SUV / MPV" 
-                  items={[
-                    { label: "5 Years", price: "₹80,000" },
-                    { label: "Matt", price: "₹85,000" },
-                    { label: "7 Years", price: "₹95,000" },
-                    { label: "10 Years", price: "₹1,20,000" },
-                  ]} 
-                />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Garware Packages Grid */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={stagger}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-10"
-          >
-            <motion.div 
-              variants={fadeInUp}
-              className="border border-white/10 bg-[#111111] p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/50 transition-all hover-lift shadow-xl"
-            >
-               <h3 className="text-2xl font-sora font-medium text-white mb-8 text-center uppercase tracking-wide">GARWARE PLUS</h3>
-               <div className="space-y-2">
-                 <PriceRow label="Small Cars" price="₹62,000" />
-                 <PriceRow label="Hatchback" price="₹65,000" />
-                 <PriceRow label="Mid Sedans/SUV" price="₹65,000" />
-                 <PriceRow label="Full SUV" price="₹85,000" />
-               </div>
-            </motion.div>
-
-            <motion.div 
-              variants={fadeInUp}
-              className="border-2 border-primary bg-white/5 p-10 rounded-[2rem] relative overflow-hidden shadow-[0_0_40px_rgba(255,0,0,0.15)] hover-glow scale-105 z-10"
-            >
-               <div className="absolute top-0 right-0 bg-primary text-white text-sm font-bold px-4 py-1.5 rounded-bl-xl">POPULAR</div>
-               <h3 className="text-2xl font-sora font-medium text-white mb-2 text-center uppercase tracking-wide">GARWARE PREMIUM</h3>
-               <p className="text-center text-primary text-sm mb-8 font-bold tracking-widest">8 YEAR WARRANTY</p>
-               <div className="space-y-2">
-                 <PriceRow label="Small Cars" price="₹80,000" highlight />
-                 <PriceRow label="Hatchback" price="₹85,000" highlight />
-                 <PriceRow label="Mid Sedans" price="₹90,000" highlight />
-                 <PriceRow label="SUV" price="₹95,000" highlight />
-               </div>
-            </motion.div>
-
-            <motion.div 
-              variants={fadeInUp}
-              className="border border-white/10 bg-[#111111] p-10 rounded-[2rem] relative overflow-hidden group hover:border-primary/50 transition-all hover-lift shadow-xl"
-            >
-               <h3 className="text-2xl font-sora font-medium text-white mb-2 text-center uppercase tracking-wide">GARWARE MATT</h3>
-               <p className="text-center text-white text-sm mb-8 font-sora tracking-widest">5 YEAR WARRANTY</p>
-               <div className="space-y-2">
-                 <PriceRow label="Small Cars" price="₹1,05,000" />
-                 <PriceRow label="Hatchback" price="₹1,10,000" />
-                 <PriceRow label="Mid Sedans" price="₹1,15,000" />
-                 <PriceRow label="SUV" price="₹1,20,000" />
-               </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function PricingCard({ title, items }: { title: string, items: {label: string, price: string}[] }) {
-  return (
-    <div className="bg-[#111111] rounded-[1.5rem] p-8 border border-white/10 hover:bg-[#1a1a1a] transition-all duration-300 hover-lift h-full flex flex-col shadow-lg">
-      <h4 className="text-xl font-medium text-white mb-8 border-b border-white/10 pb-4 font-sora uppercase tracking-wider">{title}</h4>
-      <div className="space-y-6 flex-grow">
-        {items.map((item, i) => (
-          <div key={i} className="flex justify-between items-center text-base font-sora">
-            <span className="text-white/90 font-normal">{item.label}</span>
-            <span className="font-semibold text-white font-mono text-lg">{item.price}</span>
+      {/* Pricing Catalogue */}
+      <section id="ppf-pricing" className="container mx-auto px-4 pb-20">
+        <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mb-2 font-sora text-xs uppercase tracking-[0.22em] text-primary">
+              Updated PPF pricing
+            </p>
+            <h2 className="font-poppins text-3xl font-semibold text-white sm:text-4xl">
+              PPF &amp; Color Wraps
+            </h2>
+            <p className="mt-2 max-w-2xl font-poppins text-sm leading-relaxed text-white/65">
+              Compare the film options, vehicle fit, warranty, and prices from our latest price list.
+            </p>
           </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+          <label className="flex flex-col gap-2 font-poppins text-xs font-medium text-white/70 sm:min-w-64">
+            Filter by vehicle
+            <select
+              value={vehicleFilter}
+              onChange={(event) => setVehicleFilter(event.target.value)}
+              className="h-11 border border-white/20 bg-[#111] px-3 text-sm text-white outline-none focus:border-primary"
+            >
+              <option>All vehicle types</option>
+              {ppfVehicleTypes.map((vehicle) => (
+                <option key={vehicle}>{vehicle}</option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-function PriceRow({ label, price, highlight = false }: { label: string, price: string, highlight?: boolean }) {
-  return (
-    <div className="flex justify-between items-center border-b border-white/10 py-3 last:border-0 last:pb-0 font-sora">
-      <span className={`${highlight ? 'text-white font-semibold' : 'text-white font-normal'} text-base`}>{label}</span>
-      <span className={`font-semibold font-mono text-lg ${highlight ? 'text-primary' : 'text-white'}`}>{price}</span>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {visibleProducts.map((product, index) => (
+            <motion.article
+              key={product.name}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.3, delay: (index % 6) * 0.035 }}
+              className="border border-white/10 bg-white/[0.035] p-5 transition-colors hover:border-primary/40"
+            >
+              <h3 className="mb-3 min-h-12 border-b border-white/10 pb-3 font-poppins text-base font-semibold leading-snug text-white">
+                {product.name}
+              </h3>
+              <div className="space-y-1">
+                {product.rows.map((row) => (
+                  <div
+                    key={`${row.vehicle}-${row.warranty}`}
+                    className="flex items-start justify-between gap-3 border-b border-white/[0.07] py-2 last:border-0"
+                  >
+                    <div className="min-w-0">
+                      <p className="font-poppins text-xs font-medium leading-snug text-white/90">
+                        {row.vehicle}
+                      </p>
+                      <p className="mt-1 font-poppins text-[10px] text-white/50">{row.warranty}</p>
+                    </div>
+                    <p className="shrink-0 font-poppins text-sm font-semibold text-primary">
+                      {formatPrice(row.price)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.article>
+          ))}
+        </div>
+        <p className="mt-5 font-poppins text-xs leading-relaxed text-white/50">
+          Prices and warranty labels follow the supplied workbook. Entries without a saved price are not shown.
+        </p>
+      </section>
     </div>
   );
 }

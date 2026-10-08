@@ -346,7 +346,7 @@ export default function About() {
           >
             {[
               { title: "Free Pickup & Drop", img: galleryImage1, highlight: "DOORSTEP SERVICE", description: "We come to you. Free doorstep pickup and delivery so your schedule stays uninterrupted." },
-              { title: "50+ Services", img: detailingImage, highlight: "DIVERSE EXPERTISE", description: "From ceramic coatings to mechanical work — one studio, every solution your vehicle needs." },
+              { title: "25+ Service Categories", img: detailingImage, highlight: "DIVERSE EXPERTISE", description: "From washing and detailing to coatings, PPF, color wraps, repair, and restoration." },
               { title: "Best Value Pricing", img: galleryImage2, highlight: "NO COMPROMISE", description: "Premium quality at prices that make sense. World-class care that is accessible to all." },
               { title: "Expert Crew", img: ppfImage, highlight: "10+ YRS EXPERIENCE", description: "A trained, passionate team that treats every vehicle with the precision of a craftsman." },
             ].map((feature, i) => (

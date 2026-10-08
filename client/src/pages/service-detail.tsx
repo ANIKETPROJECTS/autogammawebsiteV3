@@ -24,7 +24,12 @@ import { Loader2, Calendar, CheckCircle2, ArrowRight, ChevronRight } from "lucid
 import { useToast } from "@/hooks/use-toast";
 import { bookingFormSchema, type BookingFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
-import { getServiceBySlug, servicesData } from "@/lib/services-data";
+import {
+  formatPrice,
+  getServiceBySlug,
+  getStartingPrice,
+  servicesData,
+} from "@/lib/service-catalog-data";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -49,7 +54,6 @@ export default function ServiceDetail() {
   const { slug } = useParams();
   const service = getServiceBySlug(slug || "");
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const { toast } = useToast();
 
   const recommendations = useMemo(() => {
@@ -115,35 +119,7 @@ export default function ServiceDetail() {
     );
   }
 
-  const isVariantService =
-    service.slug === "ceramic-coating" ||
-    service.slug === "windshield-coating" ||
-    service.slug === "sun-control-film";
-
-  const variantLabels: Record<string, string[]> = {
-    "ceramic-coating": [
-      "9H — Made in India",
-      "MAFRA — Made in Italy",
-      "MENZA PRO — Made in Japan",
-      "KOCH CHEMIE — Made in Germany",
-    ],
-    "windshield-coating": ["Front Windshield Only", "All Glasses"],
-    "sun-control-film": [
-      "Economy (25–30% Heat Rejection)",
-      "Standard (30–40% Heat Rejection)",
-      "Premium (40–50% Heat Rejection)",
-      "Ceramic (50–60% Heat Rejection)",
-    ],
-  };
-
-  const currentVariantPricing = isVariantService
-    ? service.pricing?.slice(
-        selectedVariantIndex * 4,
-        (selectedVariantIndex + 1) * 4
-      )
-    : service.pricing;
-
-  const displayPrice = service.pricing ? service.pricing[0].price : service.price;
+  const displayPrice = formatPrice(getStartingPrice(service));
 
   return (
     <div className="bg-background min-h-screen w-full overflow-x-hidden">
@@ -151,19 +127,11 @@ export default function ServiceDetail() {
       {/* ── HERO ── */}
       <section className="relative w-full min-h-[55vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
-          {service.slug === "foam-washing" ? (
-            <video
-              src="/attached_assets/6873163-uhd_2160_3840_25fps_1766779370222.mp4"
-              autoPlay loop muted playsInline
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <img
-              src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=2071&auto=format&fit=crop"
-              alt={service.title}
-              className="w-full h-full object-cover"
-            />
-          )}
+          <img
+            src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=2071&auto=format&fit=crop"
+            alt={service.title}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/20" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
         </div>
@@ -253,49 +221,6 @@ export default function ServiceDetail() {
                 ))}
               </motion.ul>
 
-              {/* Variants for applicable services */}
-              {isVariantService && service.variants && (
-                <div className="mt-2">
-                  <p className="text-primary font-poppins text-xs font-bold tracking-[0.3em] uppercase mb-3">
-                    Select Variant
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {service.variants.map((v, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setSelectedVariantIndex(i)}
-                        className={`text-left px-5 py-3 border font-poppins text-xs font-semibold uppercase tracking-wide transition-all duration-200 ${
-                          selectedVariantIndex === i
-                            ? "bg-primary border-primary text-white"
-                            : "bg-white/5 border-white/10 text-white/70 hover:border-primary/50 hover:text-white"
-                        }`}
-                      >
-                        {variantLabels[service.slug]?.[i] ?? v.split(" (")[0]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Non-variant variants list */}
-              {!isVariantService && service.variants && service.variants.length > 0 && (
-                <div className="mt-2">
-                  <p className="text-primary font-poppins text-xs font-bold tracking-[0.3em] uppercase mb-3">
-                    Available Variants
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {service.variants.map((variant, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3"
-                      >
-                        <div className="w-1.5 h-1.5 bg-primary rounded-full shrink-0" />
-                        <span className="text-white font-poppins text-xs leading-tight">{variant}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </motion.div>
 
             {/* RIGHT: Pricing (2/5) */}
@@ -328,21 +253,34 @@ export default function ServiceDetail() {
                     </span>
                   </div>
                   {/* Pricing rows */}
-                  {(currentVariantPricing ?? service.pricing).map((tier, i) => (
+                  {service.pricing.map((tier, i) => (
                     <motion.div
-                      key={`${selectedVariantIndex}-${i}`}
+                      key={`${tier.carType}-${i}`}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.07 }}
-                      className={`grid grid-cols-2 items-center px-5 py-4 border-b border-white/10 last:border-b-0 hover:bg-primary/10 transition-colors group ${
+                      className={`grid grid-cols-2 items-center gap-3 px-5 py-4 border-b border-white/10 last:border-b-0 hover:bg-primary/10 transition-colors group ${
                         i % 2 === 0 ? "bg-white/3" : "bg-white/5"
                       }`}
                     >
                       <span className="text-white/80 font-poppins text-base group-hover:text-white transition-colors">
-                        {tier.carType.split(" - ").pop()}
+                        {tier.carType}
                       </span>
-                      <span className="text-white font-sora font-bold text-xl text-right group-hover:text-primary transition-colors">
-                        {tier.price}
+                      <span className="flex flex-col items-end gap-1 text-right">
+                        {tier.options?.length ? (
+                          <span className="text-sm font-poppins font-semibold text-white">
+                            Base: {formatPrice(tier.price)}
+                          </span>
+                        ) : (
+                          <span className="text-white font-sora font-bold text-xl group-hover:text-primary transition-colors">
+                            {formatPrice(tier.price)}
+                          </span>
+                        )}
+                        {tier.options?.map((option) => (
+                          <span key={option.label} className="text-xs font-poppins text-white/70">
+                            {option.label}: <strong className="text-primary">{formatPrice(option.price)}</strong>
+                          </span>
+                        ))}
                       </span>
                     </motion.div>
                   ))}
@@ -367,15 +305,6 @@ export default function ServiceDetail() {
                 </span>
               </button>
 
-              {service.warranty && (
-                <div className="flex items-center gap-3 bg-primary/10 border border-primary/30 px-5 py-4">
-                  <CheckCircle2 className="text-primary shrink-0" size={18} />
-                  <p className="text-white font-poppins text-sm">
-                    <span className="text-primary font-semibold">Warranty:</span>{" "}
-                    {service.warranty}
-                  </p>
-                </div>
-              )}
             </motion.div>
           </div>
         </div>
@@ -420,15 +349,7 @@ export default function ServiceDetail() {
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
                       <img
-                        src={
-                          rec.slug === "foam-washing"
-                            ? "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?q=80&w=800"
-                            : rec.slug === "ceramic-coating"
-                            ? "https://images.unsplash.com/photo-1601362840469-51e4d8d59085?q=80&w=800"
-                            : rec.slug === "detailing"
-                            ? "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?q=80&w=800"
-                            : "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800"
-                        }
+                        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800"
                         alt={rec.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
@@ -446,7 +367,7 @@ export default function ServiceDetail() {
                         <div>
                           <p className="text-white/40 font-poppins text-[10px] uppercase tracking-widest">From</p>
                           <p className="text-primary font-sora font-bold text-lg">
-                            {rec.pricing ? rec.pricing[0].price : rec.price}
+                            {formatPrice(getStartingPrice(rec))}
                           </p>
                         </div>
                         <div className="w-8 h-8 border border-white/20 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-300">

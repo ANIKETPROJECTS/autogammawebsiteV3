@@ -66,20 +66,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { name: "ABOUT US", href: "/about" },
     { 
       name: "SERVICES", 
-      href: "/#services",
+      href: "/services",
       submenu: [
-        { name: "FOAM WASHING", href: "/service/foam-washing" },
-        { name: "PREMIUM WASHING", href: "/service/premium-washing" },
-        { name: "INTERIOR CLEANING", href: "/service/interior-cleaning" },
-        { name: "INTERIOR STEAM CLEANING", href: "/service/interior-steam-cleaning" },
-        { name: "LEATHER TREATMENT", href: "/service/leather-treatment" },
-        { name: "DETAILING", href: "/service/detailing" },
-        { name: "PAINT SEALANT COATING(TEFLON)", href: "/service/paint-sealant-coating" },
-        { name: "CERAMIC COATING", href: "/service/ceramic-coating" },
-        { name: "CORROSION TREATMENT", href: "/service/corrosion-treatment" },
-        { name: "WINDSHIELD COATING", href: "/service/windshield-coating" },
-        { name: "SUN CONTROL FILM", href: "/service/sun-control-film" },
-        { name: "PAINT PROTECTION FILM", href: "/ppf" },
+        { name: "WASHING & QUICK CARE", href: "/services#washing-quick-care" },
+        { name: "DETAILING", href: "/services#detailing" },
+        { name: "COATINGS & PROTECTION", href: "/services#coatings-protection" },
+        { name: "PPF & COLOR WRAPS", href: "/services#ppf-color-wraps" },
+        { name: "REPAIR & RESTORATION", href: "/services#repair-restoration" },
       ]
     },
   ];

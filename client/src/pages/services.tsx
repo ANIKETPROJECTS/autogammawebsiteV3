@@ -1,158 +1,106 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
+import { ArrowRight, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
-import { servicesData } from "@/lib/services-data";
+import {
+  formatPrice,
+  getStartingPrice,
+  serviceCategories,
+  servicesData,
+} from "@/lib/service-catalog-data";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-} as const;
-
-const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } }
-} as const;
+const serviceBySlug = new Map(servicesData.map((service) => [service.slug, service]));
 
 export default function Services() {
   return (
-    <div className="pt-24 pb-20 bg-background min-h-screen">
-      {/* Hero Section */}
-      <section className="container px-4 mx-auto mb-20 text-center">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
+    <div className="min-h-screen bg-background px-4 pb-16 pt-28 text-white md:pt-32">
+      <section className="mx-auto mb-10 max-w-5xl text-center md:mb-12">
+        <motion.h1
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-4 font-poppins text-3xl font-semibold leading-tight tracking-normal sm:text-4xl md:text-5xl"
         >
-          <motion.h1 
-            variants={fadeInUp}
-            className="text-5xl md:text-7xl font-sora font-semibold text-white mb-6 uppercase"
+          Our <span className="text-primary">Services</span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+          className="mx-auto max-w-3xl font-poppins text-sm leading-relaxed text-white/75 sm:text-base"
+        >
+          Explore our vehicle care services and transparent, vehicle-specific pricing.
+        </motion.p>
+      </section>
+
+      <section className="mx-auto grid max-w-[1400px] grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+        {serviceCategories.map((category, categoryIndex) => (
+          <motion.article
+            id={category.id}
+            key={category.id}
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.35, delay: categoryIndex * 0.04 }}
+            className="scroll-mt-28 border border-primary/30 bg-white/[0.035] p-5 sm:p-6"
           >
-            DISCOVER THE <span className="text-primary">SERVICES</span>
-          </motion.h1>
-          <motion.p variants={fadeInUp} className="text-xl text-white font-medium max-w-2xl mx-auto font-sora">
-            The essence of expert services! Choose from our comprehensive range of car care solutions tailored for your machine.
-          </motion.p>
-        </motion.div>
-      </section>
+            <div className="mb-4 flex items-start justify-between gap-3 border-b border-white/15 pb-4">
+              <h2 className="font-poppins text-lg font-semibold leading-snug text-white sm:text-xl">
+                {category.title}
+              </h2>
+              <BadgeCheck className="mt-0.5 shrink-0 text-primary" size={20} aria-hidden="true" />
+            </div>
 
-      {/* Services Grid */}
-      <section className="container px-4 mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={stagger}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {servicesData.map((service) => (
-            <motion.div key={service.id} variants={fadeInUp}>
-              <Link href={`/service/${service.slug}`}>
-                <Card className={`h-full cursor-pointer transition-all duration-300 hover:border-primary/50 ${
-                  service.highlight 
-                    ? 'border-primary/50 bg-primary/5' 
-                    : 'border-white/10 bg-white/5 hover:bg-white/10'
-                } p-6 flex flex-col justify-between group`}
-                data-testid={`card-service-${service.slug}`}
-                >
-                  {/* Highlight Badge */}
-                  {service.highlight && (
-                    <div className="mb-4">
-                      <Badge className="bg-primary text-white text-xs font-semibold uppercase">Featured Service</Badge>
-                    </div>
-                  )}
+            <ul className="divide-y divide-white/10">
+              {category.items.map((item) => {
+                const service = item.slug ? serviceBySlug.get(item.slug) : undefined;
+                const href = item.href ?? (item.slug ? `/service/${item.slug}` : "/services");
 
-                  {/* Title and Price */}
-                  <div className="mb-6">
-                    <h3 className={`text-2xl font-sora font-semibold mb-2 transition-colors uppercase ${
-                      service.highlight ? 'text-primary' : 'text-white group-hover:text-primary'
-                    }`}
-                    data-testid={`text-service-title-${service.slug}`}
+                return (
+                  <li key={item.title}>
+                    <Link
+                      href={href}
+                      className="group flex min-h-14 items-center justify-between gap-4 py-3 transition-colors hover:text-primary"
                     >
-                      {service.title}
-                    </h3>
-                    <p className="text-white font-medium text-sm line-clamp-2 mb-4 font-sora">{service.description}</p>
-                    <p className="text-3xl font-mono font-semibold text-primary">{service.pricing ? service.pricing[0].price : service.price}</p>
-                  </div>
-
-                  {/* Pricing Tiers Preview */}
-                  <div className="mb-6">
-                    <div className="flex flex-wrap gap-1">
-                      {service.pricing && service.pricing.slice(0, 2).map((tier, i) => (
-                        <Badge key={i} variant="outline" className="text-xs bg-primary/10 border-primary/30 text-primary font-semibold">
-                          {tier.carType}: {tier.price}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Features Preview */}
-                  <div className="mb-6 flex-1">
-                    <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-2 font-sora">Key Features:</h4>
-                    <ul className="text-xs text-white/80 space-y-1 font-sora">
-                      {service.features.slice(0, 3).map((feature: string, i: number) => (
-                        <li key={i} className="line-clamp-1 font-medium">• {feature}</li>
-                      ))}
-                      {service.features.length > 3 && (
-                        <li className="text-primary text-xs font-semibold">+{service.features.length - 3} more features</li>
-                      )}
-                    </ul>
-                  </div>
-
-                  {/* Warranty Badge */}
-                  {service.warranty && (
-                    <div className="mb-4 px-3 py-2 bg-primary/20 border border-primary/30 rounded text-xs text-primary font-semibold text-center uppercase tracking-wide">
-                      {service.warranty}
-                    </div>
-                  )}
-
-                  {/* View Details Button */}
-                  <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-semibold group/btn uppercase tracking-widest h-11"
-                    data-testid={`button-view-service-${service.slug}`}
-                  >
-                    View Details
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+                      <span className="font-poppins text-sm font-medium text-white group-hover:text-primary sm:text-base">
+                        {item.title}
+                      </span>
+                      <span className="flex shrink-0 items-center gap-2 text-right">
+                        {service ? (
+                          <span className="font-poppins text-xs text-white/65 sm:text-sm">
+                            From <span className="font-semibold text-primary">{formatPrice(getStartingPrice(service))}</span>
+                          </span>
+                        ) : (
+                          <span className="font-poppins text-xs text-primary sm:text-sm">
+                            View film options
+                          </span>
+                        )}
+                        <ArrowRight
+                          size={15}
+                          className="text-primary transition-transform group-hover:translate-x-1"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.article>
+        ))}
       </section>
 
-      {/* CTA Section */}
-      <section className="container px-4 mx-auto max-w-4xl mt-24 text-center">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={stagger}
-        >
-          <motion.h2 variants={fadeInUp} className="text-4xl font-sora font-semibold text-white mb-6 uppercase">
-            Ready to Transform Your Car?
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="text-xl text-white font-medium mb-8 font-sora">
-            Choose any service above to view detailed information, pricing, and book your appointment today.
-          </motion.p>
-          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              className="bg-primary hover:bg-primary/90 text-white font-semibold h-12 px-8 uppercase tracking-widest"
-              onClick={() => {
-                const contactSection = document.getElementById("contact");
-                if (contactSection) contactSection.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              Book a Service
-            </Button>
-            <Link href="/contact">
-              <Button variant="outline" className="text-white border-white/20 hover:bg-white/10 h-12 px-8 uppercase tracking-widest font-semibold">
-                Contact Us
-              </Button>
-            </Link>
-          </motion.div>
-        </motion.div>
+      <section className="mx-auto mt-14 max-w-4xl text-center">
+        <h2 className="font-poppins text-2xl font-semibold text-white sm:text-3xl">
+          Ready to book a service?
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl font-poppins text-sm leading-relaxed text-white/70 sm:text-base">
+          Choose a service above to view its vehicle-specific prices and booking options.
+        </p>
+        <Link href="/#contact">
+          <Button className="mt-6 bg-primary px-8 font-poppins font-semibold text-white hover:bg-primary/90">
+            Contact Auto Gamma
+          </Button>
+        </Link>
       </section>
     </div>
   );

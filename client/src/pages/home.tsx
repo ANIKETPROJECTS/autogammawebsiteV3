@@ -9,12 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { contactFormSchema, type ContactFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { socialLinks } from "@/lib/social-links";
+import { serviceCategories } from "@/lib/service-catalog-data";
 
 import heroVideo from "@assets/auto-gamma-hero-full-quality.mp4";
 import heroImage from "@assets/generated_images/cinematic_luxury_dark_car_hero_background_with_red_accents.png";
@@ -300,22 +301,21 @@ export default function Home() {
               <div className="flex animate-marquee-services whitespace-nowrap">
                 {[...Array(2)].map((_, i) => (
                   <div key={i} className="flex items-center gap-4 md:gap-8 px-4">
-                    <span className="text-primary font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">PAINT PROTECTION FILM</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-white font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-sm lg:text-base">SUN CONTROL FILM</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-primary font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">BODY WRAP</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-white font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">CERAMIC COATING</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-primary font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">STEAM WASH</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-white font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">DETAILING</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-primary font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">CAR ACCESSORIES</span>
-                    <span className="text-white font-bold">|</span>
-                    <span className="text-white font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base">MECHANICAL</span>
-                    <span className="text-white font-bold">|</span>
+                    {[
+                      "Washing & Quick Care",
+                      "Detailing",
+                      "Coatings & Protection",
+                      "PPF & Color Wraps",
+                      "Repair & Restoration",
+                    ].flatMap((category, index) => [
+                      <span
+                        key={category}
+                        className={`${index % 2 === 0 ? "text-primary" : "text-white"} font-semibold uppercase tracking-wide text-xs md:text-sm lg:text-base`}
+                      >
+                        {category}
+                      </span>,
+                      <span key={`${category}-divider`} className="font-bold text-white">|</span>,
+                    ])}
                   </div>
                 ))}
               </div>
@@ -411,14 +411,14 @@ export default function Home() {
                 alt: "Coatings and protection services: graphene, borophene, windshield glass, and anti-rust coatings.",
               },
               {
-                title: "Paint Protection Film (PPF)",
+                title: "Paint Protection Film (PPF) & Color Wraps",
                 image: servicePpfWrapsImage,
-                alt: "Paint protection film and color wrap services: interior PPF, exterior PPF, body wrap, and PPF maintenance.",
+                alt: "Paint protection film and color wrap services: Interior PPF, Exterior PPF, and PPF Maintenance.",
               },
               {
                 title: "Repair & Restoration",
                 image: serviceRepairImage,
-                alt: "Professional repair and restoration services: precision dent repair, paint refinishing, windshield polishing, and water-spot removal.",
+                alt: "Repair and restoration services: Denting Painting and Glass Polishing.",
               },
             ].map((category) => (
               <motion.article
@@ -613,14 +613,16 @@ export default function Home() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="bg-neutral-900 border-white/10">
-                            <SelectItem value="auto-detailing">Auto Detailing</SelectItem>
-                            <SelectItem value="ppf">Paint Protection Film</SelectItem>
-                            <SelectItem value="ceramic-coating">Ceramic Coating</SelectItem>
-                            <SelectItem value="body-wrap">Body Wrap</SelectItem>
-                            <SelectItem value="sun-control">Sun Control Film</SelectItem>
-                            <SelectItem value="interior-cleaning">Interior Cleaning</SelectItem>
-                            <SelectItem value="mechanical">Mechanical Services</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            {serviceCategories.map((category) => (
+                              <SelectGroup key={category.id}>
+                                <SelectLabel className="text-primary">{category.title}</SelectLabel>
+                                {category.items.map((item) => (
+                                  <SelectItem key={item.title} value={item.title}>
+                                    {item.title}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
