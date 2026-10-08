@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import { ArrowRight, Calculator, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,6 +63,13 @@ function isItemPricedForVehicle(item: ServiceCategoryItem, vehicle: string) {
   return Boolean(getServiceTier(service, vehicle));
 }
 
+function navigateToCard(card: HTMLDivElement | null) {
+  if (!card) return;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  card.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+  card.focus({ preventScroll: true });
+}
+
 export default function ServicePriceCalculator() {
   const [vehicle, setVehicle] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -72,6 +79,8 @@ export default function ServicePriceCalculator() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [revealAttempted, setRevealAttempted] = useState(false);
   const [hasRevealedPrice, setHasRevealedPrice] = useState(false);
+  const serviceCardRef = useRef<HTMLDivElement>(null);
+  const detailsCardRef = useRef<HTMLDivElement>(null);
 
   const availableCategories = useMemo(
     () =>
@@ -140,12 +149,25 @@ export default function ServicePriceCalculator() {
             Service Price Calculator
           </h2>
           <p className="mx-auto mt-2 max-w-2xl font-poppins text-sm text-white/65 sm:text-base">
-            Select your vehicle, then choose a service to see its listed price.
+            Choose your vehicle and service, then enter your details to reveal the price.
           </p>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="border border-primary/30 bg-white/[0.035] p-4 sm:p-6">
+          <div
+            ref={serviceCardRef}
+            tabIndex={-1}
+            className="border border-primary/30 bg-white/[0.035] p-4 outline-none sm:p-6"
+            aria-labelledby="calculator-service-step-title"
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-primary/50 font-poppins text-sm font-semibold text-primary">
+                01
+              </span>
+              <h3 id="calculator-service-step-title" className="font-poppins text-lg font-semibold text-white">
+                Choose your vehicle and service
+              </h3>
+            </div>
             <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
               <div className="flex min-w-0 flex-col gap-2">
                 <label id="calculator-vehicle-label" className="font-poppins text-sm font-medium text-white">
@@ -219,6 +241,12 @@ export default function ServicePriceCalculator() {
                     setServiceKey(nextServiceKey);
                     setPpfProductName("");
                     resetPriceGate();
+                    const nextItem = availableServices.find(
+                      (item) => getItemKey(item) === nextServiceKey,
+                    );
+                    if (nextItem?.href !== "/ppf") {
+                      requestAnimationFrame(() => navigateToCard(detailsCardRef.current));
+                    }
                   }}
                 >
                   <SelectTrigger
@@ -252,6 +280,7 @@ export default function ServicePriceCalculator() {
                     onValueChange={(nextProduct) => {
                       setPpfProductName(nextProduct);
                       resetPriceGate();
+                      requestAnimationFrame(() => navigateToCard(detailsCardRef.current));
                     }}
                   >
                     <SelectTrigger
@@ -276,11 +305,51 @@ export default function ServicePriceCalculator() {
                 </div>
               )}
 
-              {canRevealPrice && (
-                <form
-                  onSubmit={handleRevealPrice}
-                  className="grid gap-4 border-t border-white/10 pt-4 sm:col-span-2 sm:grid-cols-2"
+            </div>
+          </div>
+
+          <div
+            ref={detailsCardRef}
+            tabIndex={-1}
+            className="flex min-h-48 flex-col justify-center border border-primary/30 bg-black/40 p-5 sm:p-6"
+            aria-labelledby="calculator-details-step-title"
+          >
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center border font-poppins text-sm font-semibold ${
+                    canRevealPrice ? "border-primary/60 text-primary" : "border-white/20 text-white/40"
+                  }`}
                 >
+                  02
+                </span>
+                <h3
+                  id="calculator-details-step-title"
+                  className={`min-w-0 font-poppins text-base font-semibold sm:text-lg ${
+                    canRevealPrice ? "text-white" : "text-white/50"
+                  }`}
+                >
+                  Your details
+                </h3>
+              </div>
+              {canRevealPrice && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-auto shrink-0 px-2 py-1 font-poppins text-xs text-white/65 hover:bg-white/5 hover:text-white"
+                  onClick={() => requestAnimationFrame(() => navigateToCard(serviceCardRef.current))}
+                >
+                  Edit choices
+                </Button>
+              )}
+            </div>
+
+            {canRevealPrice && !hasRevealedPrice ? (
+              <form onSubmit={handleRevealPrice} className="space-y-4">
+                <p className="font-poppins text-sm text-white/65">
+                  Enter your name and contact number to view the price for {selectedItem?.title}.
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex min-w-0 flex-col gap-2">
                     <label htmlFor="calculator-customer-name" className="font-poppins text-sm font-medium text-white">
                       Name
@@ -338,28 +407,19 @@ export default function ServicePriceCalculator() {
                       </p>
                     )}
                   </div>
-
-                  <Button
-                    type="submit"
-                    className="h-11 rounded-none bg-primary font-poppins text-base font-bold text-white hover:bg-primary/90 sm:col-span-2"
-                    data-testid="button-reveal-price"
-                  >
-                    Reveal price
-                  </Button>
-                  <p className="font-poppins text-xs leading-relaxed text-white/45 sm:col-span-2">
-                    Your details unlock the estimate here; this calculator does not send or store them.
-                  </p>
-                </form>
-              )}
-            </div>
-          </div>
-
-          <div
-            className="flex min-h-48 flex-col justify-center border border-primary/30 bg-black/40 p-5 sm:p-6"
-            aria-live="polite"
-            role="status"
-          >
-            {hasCalculatedPrice && selectedItem && vehicle && hasRevealedPrice ? (
+                </div>
+                <Button
+                  type="submit"
+                  className="h-11 w-full rounded-none bg-primary font-poppins text-base font-bold text-white hover:bg-primary/90"
+                  data-testid="button-reveal-price"
+                >
+                  Reveal price
+                </Button>
+                <p className="font-poppins text-xs leading-relaxed text-white/45">
+                  Your details unlock the estimate here; this calculator does not send or store them.
+                </p>
+              </form>
+            ) : hasCalculatedPrice && selectedItem && vehicle && hasRevealedPrice ? (
               <>
                 <div className="mb-4 flex items-center gap-2 text-primary">
                   <Calculator size={18} aria-hidden="true" />
@@ -411,15 +471,10 @@ export default function ServicePriceCalculator() {
                   Enquire about this service <ArrowRight size={14} aria-hidden="true" />
                 </a>
               </>
-            ) : canRevealPrice ? (
-              <CalculatorPrompt
-                title="Your estimate is ready"
-                description="Enter your name and contact number, then select Reveal price to view your estimate."
-              />
             ) : isExteriorPpf && selectedItem ? (
               <CalculatorPrompt
                 title="Choose a PPF film"
-                description="Exterior PPF prices vary by film. Select an option to see its vehicle-specific price."
+                description="Select a film in the first card to continue to your details and price."
               />
             ) : selectedItem && !selectedTier ? (
               <CalculatorPrompt
@@ -428,18 +483,18 @@ export default function ServicePriceCalculator() {
               />
             ) : !vehicle ? (
               <CalculatorPrompt
-                title="Start with your vehicle"
-                description="Choose a vehicle type to see the service categories and prices available for it."
+                title="Complete the first card"
+                description="Choose a vehicle, category, and service to continue here."
               />
             ) : !categoryId ? (
               <CalculatorPrompt
                 title="Choose a category"
-                description="Only categories with prices for your selected vehicle are shown."
+                description="Available categories for this vehicle will appear in the first card."
               />
             ) : (
               <CalculatorPrompt
                 title="Choose a service"
-                description="Select a service to calculate its price for your vehicle."
+                description="Select a service in the first card to continue."
               />
             )}
           </div>
