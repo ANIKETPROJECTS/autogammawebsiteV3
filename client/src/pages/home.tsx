@@ -341,8 +341,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Catalogue */}
-      <section id="services" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-background relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
+      <section id="services" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative overflow-hidden">
         
         <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
           <motion.div 
