@@ -355,7 +355,7 @@ export default function Home() {
       {/* Our Services Catalogue */}
       <section id="services" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative overflow-hidden">
         
-        <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -376,7 +376,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerFast}
-            className="grid max-w-[1400px] grid-cols-1 items-stretch gap-4 mx-auto md:grid-cols-2 md:gap-6"
+            className="mx-auto grid max-w-[1400px] grid-cols-1 items-stretch gap-4 md:gap-6"
           >
             {[
               {
@@ -404,11 +404,11 @@ export default function Home() {
                 image: serviceRepairImage,
                 alt: "Professional repair and restoration services: precision dent repair, paint refinishing, windshield polishing, and water-spot removal.",
               },
-            ].map((category, index) => (
+            ].map((category) => (
               <motion.article
                 key={category.title}
                 variants={fadeInUp}
-                className={`h-full min-w-0 ${index === 4 ? "md:col-span-2 md:w-1/2 md:justify-self-center" : ""}`}
+                className="h-full w-full min-w-0"
               >
                 <figure className="overflow-hidden border-[0.3px] border-primary/50 bg-neutral-950">
                   <img
