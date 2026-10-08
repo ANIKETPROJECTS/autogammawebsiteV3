@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState, type FormEvent } from "react";
-import { ArrowRight, Calculator, IndianRupee } from "lucide-react";
+import { ArrowRight, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -66,7 +66,10 @@ function isItemPricedForVehicle(item: ServiceCategoryItem, vehicle: string) {
 function navigateToCard(card: HTMLDivElement | null) {
   if (!card) return;
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  card.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+  const isDesktopLayout = window.matchMedia("(min-width: 1024px)").matches;
+  if (!isDesktopLayout) {
+    card.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+  }
   card.focus({ preventScroll: true });
 }
 
@@ -157,14 +160,14 @@ export default function ServicePriceCalculator() {
           <div
             ref={serviceCardRef}
             tabIndex={-1}
-            className="border border-primary/30 bg-white/[0.035] p-4 outline-none sm:p-6"
+            className="border border-primary/30 bg-white/[0.035] p-4 outline-none focus-visible:ring-1 focus-visible:ring-primary sm:p-6"
             aria-labelledby="calculator-service-step-title"
           >
             <div className="mb-4 flex items-center gap-3">
               <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-primary/50 font-poppins text-sm font-semibold text-primary">
                 01
               </span>
-              <h3 id="calculator-service-step-title" className="font-poppins text-lg font-semibold text-white">
+              <h3 id="calculator-service-step-title" className="font-poppins text-base font-semibold text-white sm:text-lg">
                 Choose your vehicle and service
               </h3>
             </div>
@@ -311,7 +314,7 @@ export default function ServicePriceCalculator() {
           <div
             ref={detailsCardRef}
             tabIndex={-1}
-            className="flex min-h-48 flex-col justify-center border border-primary/30 bg-black/40 p-5 sm:p-6"
+            className="flex min-h-48 flex-col border border-primary/30 bg-black/40 p-4 outline-none focus-visible:ring-1 focus-visible:ring-primary sm:p-6"
             aria-labelledby="calculator-details-step-title"
           >
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -329,7 +332,7 @@ export default function ServicePriceCalculator() {
                     canRevealPrice ? "text-white" : "text-white/50"
                   }`}
                 >
-                  Your details
+                  Your details and estimate
                 </h3>
               </div>
               {canRevealPrice && (
@@ -421,12 +424,9 @@ export default function ServicePriceCalculator() {
               </form>
             ) : hasCalculatedPrice && selectedItem && vehicle && hasRevealedPrice ? (
               <>
-                <div className="mb-4 flex items-center gap-2 text-primary">
-                  <Calculator size={18} aria-hidden="true" />
-                  <span className="font-poppins text-xs font-semibold uppercase tracking-[0.16em]">
-                    Your price
-                  </span>
-                </div>
+                <p className="mb-2 font-poppins text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                  Your price
+                </p>
                 <h3 className="font-poppins text-lg font-semibold text-white">
                   {selectedItem.title}
                 </h3>
@@ -516,13 +516,7 @@ function PriceLine({ label, price }: { label: string; price: number }) {
 function CalculatorPrompt({ title, description }: { title: string; description: string }) {
   return (
     <div>
-      <div className="mb-3 flex items-center gap-2 text-primary">
-        <Calculator size={18} aria-hidden="true" />
-        <span className="font-poppins text-xs font-semibold uppercase tracking-[0.16em]">
-          Price estimate
-        </span>
-      </div>
-      <h3 className="font-poppins text-lg font-semibold text-white">{title}</h3>
+      <h4 className="font-poppins text-lg font-semibold text-white">{title}</h4>
       <p className="mt-2 max-w-md font-poppins text-sm leading-relaxed text-white/55">
         {description}
       </p>
