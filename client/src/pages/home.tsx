@@ -62,27 +62,6 @@ import rupeeIcon from "@assets/image_1766729223515.png";
 import toolsIcon from "@assets/image_1766729246340.png";
 import starIcon from "@assets/image_1766729264056.png";
 
-import logoSunkool from "@assets/image_1766996045740.png";
-import logoLlumar from "@assets/image_1766996052707.png";
-import logo3M from "@assets/image_1766996063570.png";
-import logoAswatth from "@assets/image_1766996070604.png";
-import logoCardi from "@assets/image_1766996080591.png";
-import logoCerwin from "@assets/image_1766996092788.png";
-import logoBrand7 from "@assets/image_1766996100254.png";
-import logoPolk from "@assets/image_1766996112674.png";
-import logoHertz from "@assets/image_1766996128876.png";
-import logoCrosslink from "@assets/image_1766996150125.png";
-import logoKochChemie from "@assets/image_1766996160076.png";
-import logoNippon from "@assets/image_1766996166388.png";
-import logoPioneer from "@assets/image_1766996178157.png";
-import logoBlaupunkt from "@assets/image_1766996198972.png";
-import logoMaxxlink from "@assets/image_1766996207119.png";
-import logoGarware from "@assets/image_1766996214489.png";
-import logoQubo from "@assets/image_1766996220841.png";
-import logoMirage from "@assets/image_1766996227510.png";
-import logoVKool from "@assets/image_1766996234339.png";
-import logoAvery from "@assets/image_1766996241161.png";
-
 import profile1 from "@assets/stock_images/indian_professional__10ae0555.jpg";
 import profile2 from "@assets/stock_images/indian_professional__b766b1cd.jpg";
 import profile3 from "@assets/stock_images/indian_professional__c83cbdcf.jpg";
@@ -122,29 +101,6 @@ const stagger = {
 const staggerFast = {
   visible: { transition: { staggerChildren: 0.05 } }
 } as const;
-
-const brandLogos = [
-  { name: "Sunkool", logo: logoSunkool },
-  { name: "Llumar", logo: logoLlumar },
-  { name: "3M", logo: logo3M },
-  { name: "Aswatth", logo: logoAswatth },
-  { name: "Cardi", logo: logoCardi },
-  { name: "Cerwin Vega", logo: logoCerwin },
-  { name: "Brand 7", logo: logoBrand7 },
-  { name: "Polk Audio", logo: logoPolk },
-  { name: "Hertz", logo: logoHertz },
-  { name: "Crosslink Wheels", logo: logoCrosslink },
-  { name: "Koch Chemie", logo: logoKochChemie },
-  { name: "Nippon", logo: logoNippon },
-  { name: "Pioneer", logo: logoPioneer },
-  { name: "Blaupunkt", logo: logoBlaupunkt },
-  { name: "Maxxlink", logo: logoMaxxlink },
-  { name: "Garware", logo: logoGarware },
-  { name: "Qubo", logo: logoQubo },
-  { name: "Mirage", logo: logoMirage },
-  { name: "V-Kool", logo: logoVKool },
-  { name: "Avery Dennison", logo: logoAvery },
-];
 
 // Carousel Component
 function CarouselContent() {
@@ -457,32 +413,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Brand Partners Logo Strip */}
-      <section className="py-6 md:py-8 relative overflow-hidden" style={{ backgroundColor: "#7e7e7e" }}>
-        <div className="container mx-auto px-4 mb-4 text-center">
-          <h2 className="text-xl md:text-2xl font-bold tracking-tighter uppercase whitespace-nowrap">
-            <span className="text-white">OUR BRAND PARTNERS</span>
-          </h2>
-        </div>
-        <div className="flex w-max animate-marquee-brands">
-          {[...brandLogos, ...brandLogos, ...brandLogos, ...brandLogos].map((brand, i) => (
-            <div 
-              key={i} 
-              className="flex-shrink-0 mx-3 flex items-center justify-center"
-              data-testid={`logo-brand-${i}`}
-            >
-              <img 
-                src={brand.logo} 
-                alt={brand.name} 
-                className="h-8 md:h-10 w-auto object-contain"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
-
 
       {/* Auto Glimpses Videos */}
       <section className="py-24 bg-neutral-900 relative">
