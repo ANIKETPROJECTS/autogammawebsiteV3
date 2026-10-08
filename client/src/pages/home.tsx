@@ -321,21 +321,18 @@ export default function Home() {
       </section>
 
       {/* Featured Client Stories */}
-      <section id="featured-clients" className="py-16 md:py-24 bg-neutral-950 relative">
-        <div className="container px-4 mx-auto">
+      <section id="featured-clients" className="pt-2 pb-2 md:pt-4 md:pb-2 bg-neutral-950 relative">
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeInUp}
-            className="text-center mb-10 md:mb-14 space-y-3"
+            className="text-center mb-6 md:mb-8"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white font-sora uppercase tracking-wider">
               FEATURED <span className="text-primary">CLIENTS</span>
             </h2>
-            <p className="text-sm sm:text-base text-white/65 font-poppins">
-              Recent work and stories from our clients
-            </p>
           </motion.div>
 
           <motion.div
@@ -343,11 +340,11 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           >
             {[1, 2, 3, 4].map((client) => (
               <motion.article key={client} variants={fadeInUp} className="min-w-0">
-                <div className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 flex flex-col items-center justify-center gap-3">
+                <div className="relative aspect-[9/17] overflow-hidden border border-white/10 bg-neutral-900 flex flex-col items-center justify-center gap-3">
                   <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70">
                     <Play className="w-5 h-5 ml-0.5" aria-hidden="true" />
                   </div>
@@ -355,16 +352,10 @@ export default function Home() {
                     Video coming soon
                   </span>
                 </div>
-                <div className="pt-3 space-y-1.5">
-                  <p className="text-[10px] sm:text-xs text-primary font-semibold uppercase tracking-wider">
-                    Recent work
-                  </p>
+                <div className="pt-2">
                   <h3 className="text-sm sm:text-base text-white font-semibold">
                     Client name
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/55 leading-relaxed">
-                    Client review coming soon.
-                  </p>
                 </div>
               </motion.article>
             ))}
@@ -373,7 +364,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Catalogue */}
-      <section id="services" className="pt-10 pb-24 bg-background relative overflow-hidden">
+      <section id="services" className="pt-0 pb-24 bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         
         <div className="container px-2 sm:px-4 mx-auto relative z-10">
