@@ -381,7 +381,7 @@ export default function Home() {
       <section id="services" className="pt-0 pb-24 bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         
-        <div className="container px-2 sm:px-4 mx-auto relative z-10">
+        <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -400,12 +400,11 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerFast}
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 items-stretch"
           >
             {[
               {
                 title: "Washing & Quick Care",
-                note: "Entry-level · High-frequency",
                 services: ["Washing", "Wash & Shine", "Dressing", "Tar Remover", "Vacuuming"],
               },
               {
@@ -424,29 +423,19 @@ export default function Home() {
                 title: "Repair & Restoration",
                 services: ["Denting Painting", "Glass Polishing"],
               },
-            ].map((category, index) => (
+            ].map((category) => (
               <motion.article
                 key={category.title}
                 variants={fadeInUp}
-                className={`h-full xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""} ${index === 4 ? "xl:col-start-4" : ""}`}
+                className="h-full min-w-0"
               >
-                <div className="h-full border border-white/10 bg-white/[0.03] p-5 md:p-7 transition-colors duration-300 hover:border-primary/60">
-                  <div className="mb-5 flex items-center justify-between gap-3">
-                    <span className="text-xs font-semibold tracking-widest text-primary">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {category.note && (
-                      <span className="text-[10px] sm:text-xs text-white/60 tracking-wide text-right">
-                        {category.note}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="mb-5 font-sora text-lg md:text-xl font-semibold leading-snug normal-case text-white">
+                <div className="h-full lg:min-h-[220px] border border-white/10 bg-white/[0.03] p-4 transition-colors duration-300 hover:border-primary/60">
+                  <h3 className="mb-5 font-sora text-base xl:text-sm font-semibold leading-snug normal-case text-white xl:whitespace-nowrap">
                     {category.title}
                   </h3>
                   <ul className="space-y-3">
                     {category.services.map((service) => (
-                      <li key={service} className="flex items-start gap-3 text-sm leading-relaxed text-white/75">
+                      <li key={service} className="flex items-start gap-3 xl:gap-2 text-sm xl:text-[13px] leading-relaxed text-white/75 xl:whitespace-nowrap">
                         <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none bg-primary" />
                         <span>{service}</span>
                       </li>
