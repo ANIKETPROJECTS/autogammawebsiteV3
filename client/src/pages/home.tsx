@@ -122,36 +122,38 @@ function CarouselContent() {
 
   return (
     <div className="space-y-5">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -12 }}
-          transition={{ duration: 0.45, ease: "easeInOut" }}
-          className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {visibleReviews.map((review) => (
-            <Card key={`${currentIndex}-${review.name}`} className="h-full rounded-none border-[0.3px] border-primary/50 bg-white/5">
-              <CardContent className="flex h-full flex-col p-6">
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-white">{review.name}</h4>
-                  <p className="text-xs text-white/60">{review.vehicle}</p>
-                </div>
-                <div className="mb-3 flex gap-1">
-                  {[...Array(review.rating)].map((_, j) => (
-                    <Star key={j} size={13} className="fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <p className="mb-3 flex-grow text-sm leading-relaxed text-white/80">"{review.text}"</p>
-                <p className="flex items-center gap-1 text-xs text-white/50">
-                  <MapPin size={11} /> {review.location}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+      <div className="relative h-[1776px] sm:h-[880px] lg:h-[432px]">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.45, ease: "easeInOut" }}
+            className="absolute inset-0 grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {visibleReviews.map((review) => (
+              <Card key={`${currentIndex}-${review.name}`} className="h-full min-h-0 overflow-hidden rounded-none border-[0.3px] border-primary/50 bg-white/5">
+                <CardContent className="flex h-full min-h-0 flex-col p-4">
+                  <div className="mb-2">
+                    <h4 className="text-sm font-semibold text-white">{review.name}</h4>
+                    <p className="text-xs text-white/60">{review.vehicle}</p>
+                  </div>
+                  <div className="mb-2 flex gap-1">
+                    {[...Array(review.rating)].map((_, j) => (
+                      <Star key={j} size={13} className="fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="mb-2 flex-grow overflow-hidden text-sm leading-relaxed text-white/80 line-clamp-4">"{review.text}"</p>
+                  <p className="flex items-center gap-1 text-xs text-white/50">
+                    <MapPin size={11} /> {review.location}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="flex justify-center gap-2">
         {reviewsData.map((_, idx) => (
@@ -205,7 +207,6 @@ export default function Home() {
     defaultValues: {
       name: "",
       phone: "",
-      email: "",
       service: "",
       message: "",
     },
@@ -531,7 +532,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 bg-neutral-900 relative">
+      <section id="contact" className="py-10 md:py-14 bg-neutral-900 relative">
         <div className="container px-4 mx-auto">
           {/* Header */}
           <motion.div 
@@ -539,12 +540,12 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="text-center mb-16 space-y-4"
+            className="text-center mb-6 md:mb-8 space-y-3"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-sora uppercase tracking-wider">
-              <span className="text-primary">CONTACT</span> <span className="text-white">US</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
+              Contact Us
             </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white max-w-2xl mx-auto font-poppins">
+            <p className="text-base sm:text-lg text-white/70 max-w-3xl mx-auto font-poppins leading-relaxed">
               Ready to give your vehicle the treatment it deserves? Reach out to us for appointments, quotes, or any queries.
             </p>
           </motion.div>
@@ -555,20 +556,20 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start"
           >
             {/* Left: Form */}
-            <motion.div variants={fadeInLeft} className="bg-white/5 border border-white/10 p-8 rounded-2xl backdrop-blur-sm h-full">
-              <h3 className="text-xl font-poppins font-bold text-white mb-8">Send Us a Message</h3>
+            <motion.div variants={fadeInLeft} className="bg-white/5 border border-white/10 p-5 sm:p-6 rounded-2xl backdrop-blur-sm h-full">
+              <h3 className="text-xl font-poppins font-bold text-white mb-5">Send Us a Message</h3>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onContactSubmit)} className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={form.handleSubmit(onContactSubmit)} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base text-white font-poppins mb-8">Name</FormLabel>
+                          <FormLabel className="text-base text-white font-poppins mb-2">Name</FormLabel>
                           <FormControl>
                             <Input placeholder="Your full name" className="bg-black/50 border-white/10 focus:border-primary h-11 text-white text-base placeholder:text-white/50 rounded-lg font-poppins" data-testid="input-contact-name" {...field} />
                           </FormControl>
@@ -581,7 +582,7 @@ export default function Home() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base text-white font-poppins mb-8">Contact Number</FormLabel>
+                          <FormLabel className="text-base text-white font-poppins mb-2">Contact Number</FormLabel>
                           <FormControl>
                             <Input placeholder="Your mobile number" className="bg-black/50 border-white/10 focus:border-primary h-11 text-white text-base placeholder:text-white/50 rounded-lg font-poppins" data-testid="input-contact-phone" {...field} />
                           </FormControl>
@@ -593,24 +594,10 @@ export default function Home() {
 
                   <FormField
                     control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base text-white font-poppins mb-8">Email Address</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="your.email@example.com" className="bg-black/50 border-white/10 focus:border-primary h-11 text-white text-base placeholder:text-white/50 rounded-lg font-poppins" data-testid="input-contact-email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
                     name="service"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base text-white font-poppins mb-8">Service Interested In</FormLabel>
+                        <FormLabel className="text-base text-white font-poppins mb-2">Service Interested In</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="bg-black/50 border-white/10 text-white h-11 text-base rounded-lg font-poppins" data-testid="select-contact-service">
@@ -638,9 +625,9 @@ export default function Home() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base text-white font-poppins mb-8">Message</FormLabel>
+                        <FormLabel className="text-base text-white font-poppins mb-2">Message</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Tell us about your vehicle..." className="bg-black/50 border-white/10 focus:border-primary min-h-[120px] text-white text-base placeholder:text-white/50 rounded-lg font-poppins" data-testid="input-contact-message" {...field} />
+                          <Textarea placeholder="Tell us about your vehicle..." className="bg-black/50 border-white/10 focus:border-primary min-h-[100px] text-white text-base placeholder:text-white/50 rounded-lg font-poppins" data-testid="input-contact-message" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -650,7 +637,7 @@ export default function Home() {
                   <Button 
                     type="submit"
                     disabled={mutation.isPending}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-base normal-case tracking-normal rounded-full mt-6"
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-base normal-case tracking-normal rounded-full"
                     data-testid="button-submit-contact"
                   >
                     {mutation.isPending ? (
@@ -661,7 +648,7 @@ export default function Home() {
                       "Submit Enquiry"
                     )}
                   </Button>
-                  <p className="text-center text-white italic text-sm mt-6 -skew-x-6">
+                  <p className="text-center text-white italic text-sm -skew-x-6">
                     "Your car deserves perfection, and we deliver it with precision."
                   </p>
                 </form>
@@ -669,11 +656,11 @@ export default function Home() {
             </motion.div>
 
             {/* Right: Contact Info & Map */}
-            <motion.div variants={fadeInRight} className="space-y-6 flex flex-col h-full">
+            <motion.div variants={fadeInRight} className="space-y-4 flex flex-col h-full">
               {/* Map */}
               <motion.div 
                 variants={fadeInUp}
-                className="rounded-2xl overflow-hidden border border-white/10 h-72"
+                className="rounded-2xl overflow-hidden border border-white/10 h-56 sm:h-64"
               >
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.0961146405354!2d73.30156332346936!3d19.17484898204387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c1c1c1c1c1c1%3A0x0!2sShop%20no.%2016%20%26%2017%2C%20Shreeji%20Parasio%2C%20Badlapur!5e0!3m2!1sen!2sin!4v1234567890123"
@@ -690,10 +677,10 @@ export default function Home() {
               {/* Contact Info Container */}
               <motion.div 
                 variants={fadeInUp}
-                className="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-sm flex-1"
+                className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm flex-1"
               >
                 {/* Shop Address */}
-                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-white">
+                <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white">
                   <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center text-white shrink-0">
                     <MapPin size={18} />
                   </div>
@@ -704,7 +691,7 @@ export default function Home() {
                 </div>
 
                 {/* Contact Number */}
-                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-white">
+                <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white">
                   <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center text-white shrink-0">
                     <Phone size={18} />
                   </div>
@@ -715,7 +702,7 @@ export default function Home() {
                 </div>
 
                 {/* Email */}
-                <div className="flex items-start gap-4 mb-6 pb-6 border-b border-white">
+                <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white">
                   <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center text-white shrink-0">
                     <Mail size={18} />
                   </div>

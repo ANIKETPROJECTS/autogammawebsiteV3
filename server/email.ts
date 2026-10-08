@@ -44,14 +44,13 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
   }
 }
 
-export function formatContactEmail(data: { name: string; phone: string; email: string; message: string }): string {
+export function formatContactEmail(data: { name: string; phone: string; message: string }): string {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #dc2626; border-bottom: 2px solid #dc2626; padding-bottom: 10px;">New Contact Inquiry</h2>
       <table style="width: 100%; border-collapse: collapse;">
         <tr><td style="padding: 10px; font-weight: bold;">Name:</td><td style="padding: 10px;">${data.name}</td></tr>
         <tr><td style="padding: 10px; font-weight: bold;">Phone:</td><td style="padding: 10px;">${data.phone}</td></tr>
-        <tr><td style="padding: 10px; font-weight: bold;">Email:</td><td style="padding: 10px;">${data.email}</td></tr>
       </table>
       <div style="margin-top: 20px; padding: 15px; background: #f3f4f6; border-radius: 8px;">
         <h3 style="margin-top: 0;">Message:</h3>
