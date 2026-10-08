@@ -325,11 +325,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-black border-t border-white/10 pt-16 pb-8 relative overflow-hidden">
+      <footer className="relative overflow-hidden border-t border-white/10 bg-black pt-16 pb-8 font-poppins text-white">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
         
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          <div className="mb-12 grid grid-cols-1 items-start gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[1.1fr_0.9fr_1.2fr_1.3fr]">
             
             {/* Brand Column */}
             <div className="space-y-6">
@@ -340,7 +340,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 decoding="async"
                 className="h-8 w-auto object-contain"
               />
-              <p className="text-muted-foreground italic leading-relaxed">
+              <p className="text-base italic leading-relaxed text-white">
                 "THE REALM OF AUTOMOTIVE LUXURY AND THE TRANSFORMATIVE POWER OF PRECISION DETAILING, WHERE EVERY DETAIL MATTERS."
               </p>
               <div className="flex gap-4">
@@ -360,12 +360,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="space-y-6">
               <h4 className="text-lg font-poppins font-bold text-white uppercase">QUICK LINKS</h4>
               <ul className="space-y-3">
-                {navLinks.filter(link => !link.submenu && !link.disabled).map((link) => (
+                {navLinks.map((link) => (
                   <li key={link.name}>
-                    <Link href={link.href} className="text-white hover:text-primary transition-colors flex items-center gap-2 group cursor-pointer font-poppins text-sm uppercase">
-                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform text-primary" />
+                    {link.disabled ? (
+                      <span aria-disabled="true" className="flex items-center gap-2 font-poppins text-base uppercase text-white">
+                        <ChevronRight size={14} className="text-primary" />
+                        {link.name}
+                      </span>
+                    ) : (
+                      <Link href={link.href} className="group flex cursor-pointer items-center gap-2 font-poppins text-base uppercase text-white transition-colors hover:text-primary">
+                        <ChevronRight size={14} className="text-primary transition-transform group-hover:translate-x-1" />
+                        {link.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+                {headerSectionLinks.map((link) => (
+                  <li key={link.sectionId}>
+                    <button
+                      type="button"
+                      onClick={() => handleSectionNavigation(link.sectionId)}
+                      className="group flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 font-poppins text-base uppercase text-white transition-colors hover:text-primary"
+                    >
+                      <ChevronRight size={14} className="text-primary transition-transform group-hover:translate-x-1" />
                       {link.name}
-                    </Link>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -377,8 +396,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-3">
                 {navLinks.find(link => link.name === "SERVICES")?.submenu?.map((service) => (
                   <li key={service.name}>
-                    <Link href={service.href} className="text-white hover:text-primary transition-colors flex items-center gap-2 group cursor-pointer font-poppins text-sm uppercase">
-                      <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform text-primary" />
+                    <Link href={service.href} className="group flex cursor-pointer items-center gap-2 font-poppins text-base uppercase text-white transition-colors hover:text-primary">
+                      <ChevronRight size={14} className="text-primary transition-transform group-hover:translate-x-1" />
                       {service.name}
                     </Link>
                   </li>
@@ -390,30 +409,33 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="space-y-6 lg:col-span-1">
               <h4 className="text-lg font-poppins font-bold text-white uppercase">CONTACT US</h4>
               <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-white">
+                <li className="flex items-start gap-3 text-base leading-relaxed text-white">
                   <MapPin className="text-primary shrink-0 mt-1" size={18} />
                   <span>Shop no. 16 & 17, Shreeji Parasio, Beside Tulsi Aangan Soc., Prasad Hotel Road, Badlapur, Maharashtra - 421503</span>
                 </li>
-                <li className="flex items-center gap-3 text-white">
+                <li className="flex items-center gap-3 text-base text-white">
                   <Phone className="text-primary shrink-0" size={18} />
-                  <a href="tel:+919226882024" className="hover:text-primary">+91 92268 82024</a>
+                  <a href="tel:+919226882024" className="font-poppins text-base text-white hover:text-primary">+91 92268 82024</a>
                 </li>
-                <li className="flex items-center gap-3 text-white">
+                <li className="flex items-center gap-3 text-base text-white">
                   <Mail className="text-primary shrink-0" size={18} />
-                  <a href="mailto:info@autogamma.in" className="hover:text-primary">info@autogamma.in</a>
+                  <a href="mailto:info@autogamma.in" className="font-poppins text-base text-white hover:text-primary">info@autogamma.in</a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white font-poppins">
-            <div className="flex-1"></div>
-            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 flex-1 justify-center">
-              <p>© {new Date().getFullYear()} AUTO GAMMA. ALL RIGHTS RESERVED.</p>
-              <p className="hidden md:block">|</p>
-              <p className="text-xs">DEVELOPED BY <a href="https://www.airavatatechnologies.com/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-bold tracking-wider">AIRAVATA TECHNOLOGIES</a></p>
-            </div>
-            <div className="flex gap-6 uppercase text-xs font-medium flex-1 justify-end">
+          <div className="grid grid-cols-1 items-center gap-4 border-t border-white/10 pt-6 text-sm text-white md:grid-cols-[1.15fr_1.15fr_1fr] md:gap-6">
+            <p className="text-center md:text-left">
+              © {new Date().getFullYear()} AUTO GAMMA. ALL RIGHTS RESERVED.
+            </p>
+            <p className="text-center">
+              DEVELOPED BY{" "}
+              <a href="https://www.airavatatechnologies.com/" target="_blank" rel="noopener noreferrer" className="font-bold tracking-wider text-white transition-colors hover:text-primary">
+                AIRAVATA TECHNOLOGIES
+              </a>
+            </p>
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium uppercase text-white md:justify-end">
               <a href="#" className="hover:text-primary">PRIVACY POLICY</a>
               <a href="#" className="hover:text-primary">TERMS OF SERVICE</a>
             </div>
