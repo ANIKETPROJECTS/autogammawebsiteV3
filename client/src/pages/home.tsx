@@ -400,29 +400,60 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerFast}
-            className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 md:gap-6"
           >
             {[
-              { title: "Auto Detailing", desc: "Expert washing, waxing & polish for pristine shine", img: detailingImage, link: "/service/premium-washing" },
-              { title: "Paint Protection", desc: "Shield your paint from damage & weathering", img: ppfImage, link: "/ppf" },
-              { title: "Body Wrap", desc: "Custom vinyl wraps for style & protection", img: heroImage, link: "/service/detailing" },
-              { title: "Sun Control Film", desc: "UV protection & interior cooling", img: interiorImage, link: "/service/sun-control-film" },
-              { title: "Ceramic Coating", desc: "Long-lasting hydrophobic protection layer", img: ceramicCoatingImage, link: "/service/ceramic-coating" },
-              { title: "Car Accessories", desc: "Premium add-ons & upgrades for your vehicle", img: galleryImage2, link: "/service/premium-washing" },
-              { title: "Interior Steam Wash", desc: "Deep cleaning for pristine interiors", img: galleryImage4, link: "/service/interior-steam-cleaning" },
-              { title: "Mechanical", desc: "Professional maintenance & repairs", img: galleryImage3, link: "/service/premium-washing" },
-            ].map((item, i) => (
-              <motion.div key={i} variants={fadeInUp}>
-                <Link href={item.link} className="group block h-[320px] md:h-[400px] relative overflow-hidden border border-white/10 cursor-pointer hover-lift flex flex-col justify-end">
-                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${item.img})` }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 group-hover:opacity-70 transition-opacity" />
-                    
-                    <div className="relative z-10 w-full p-3 md:p-8 mt-auto">
-                      <h3 className="text-base md:text-2xl font-sora font-semibold text-white mb-1 md:mb-2 line-clamp-2">{item.title}</h3>
-                      <p className="text-xs md:text-sm text-white mb-2 md:mb-3 line-clamp-2">{item.desc}</p>
-                    </div>
-                </Link>
-              </motion.div>
+              {
+                title: "Washing & Quick Care",
+                note: "Entry-level · High-frequency",
+                services: ["Washing", "Wash & Shine", "Dressing", "Tar Remover", "Vacuuming"],
+              },
+              {
+                title: "Detailing",
+                services: ["Detailing Interior", "Detailing Exterior", "Detailing Interior + Exterior", "Interior Steam"],
+              },
+              {
+                title: "Coatings & Protection",
+                services: ["Graphene Coating", "Borophene Coating", "Windshield Glass Coating", "Anti Rust Coating"],
+              },
+              {
+                title: "Paint Protection Film (PPF)",
+                services: ["Interior PPF", "PPF Maintenance"],
+              },
+              {
+                title: "Repair & Restoration",
+                services: ["Denting Painting", "Glass Polishing"],
+              },
+            ].map((category, index) => (
+              <motion.article
+                key={category.title}
+                variants={fadeInUp}
+                className={`h-full xl:col-span-2 ${index === 3 ? "xl:col-start-2" : ""} ${index === 4 ? "xl:col-start-4" : ""}`}
+              >
+                <div className="h-full border border-white/10 bg-white/[0.03] p-5 md:p-7 transition-colors duration-300 hover:border-primary/60">
+                  <div className="mb-5 flex items-center justify-between gap-3">
+                    <span className="text-xs font-semibold tracking-widest text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {category.note && (
+                      <span className="text-[10px] sm:text-xs text-white/60 tracking-wide text-right">
+                        {category.note}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="mb-5 font-sora text-lg md:text-xl font-semibold leading-snug text-white">
+                    {category.title}
+                  </h3>
+                  <ul className="space-y-3">
+                    {category.services.map((service) => (
+                      <li key={service} className="flex items-start gap-3 text-sm leading-relaxed text-white/75">
+                        <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none bg-primary" />
+                        <span>{service}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.article>
             ))}
           </motion.div>
         </div>
