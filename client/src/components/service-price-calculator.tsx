@@ -96,14 +96,11 @@ export default function ServicePriceCalculator() {
   return (
     <section
       id="service-price-calculator"
-      className="relative bg-neutral-950 px-4 py-8 md:py-10"
+      className="relative bg-neutral-950 py-8 md:py-10"
       aria-labelledby="service-price-calculator-title"
     >
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto w-full max-w-[1400px] px-2 sm:px-4">
         <div className="mb-6 text-center">
-          <p className="mb-2 font-poppins text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            Quick price estimate
-          </p>
           <h2
             id="service-price-calculator-title"
             className="font-poppins text-3xl font-semibold leading-tight text-white sm:text-4xl"
@@ -193,9 +190,6 @@ export default function ServicePriceCalculator() {
                 </label>
               )}
             </div>
-            <p className="mt-4 font-poppins text-xs leading-relaxed text-white/45">
-              Prices shown are from the current price list. Coating warranty options are displayed separately.
-            </p>
           </div>
 
           <div
