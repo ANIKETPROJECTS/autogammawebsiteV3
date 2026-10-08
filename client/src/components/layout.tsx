@@ -1,5 +1,5 @@
 import { Link, useLocation, useRoute } from "wouter";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, MapPin, Phone, Mail, ChevronRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,16 +41,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const prevScrollY = useRef(0);
 
   useEffect(() => {
+    let wasScrolled = window.scrollY > 50;
+    if (wasScrolled) setIsScrolled(true);
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
-      prevScrollY.current = currentScrollY;
+      const isNowScrolled = window.scrollY > 50;
+      if (isNowScrolled === wasScrolled) return;
+
+      wasScrolled = isNowScrolled;
+      setIsScrolled(isNowScrolled);
     };
     
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -276,6 +280,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <img 
                 src={autoGammaLogo} 
                 alt="Auto Gamma" 
+                loading="lazy"
+                decoding="async"
                 className="h-8 w-auto object-contain"
               />
               <p className="text-muted-foreground italic leading-relaxed">
@@ -283,13 +289,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </p>
               <div className="flex gap-4">
                 <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
-                  <img src={facebookIcon} alt="Facebook" className="w-full h-full object-contain" />
+                  <img src={facebookIcon} alt="Facebook" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                 </a>
                 <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
-                  <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
+                  <img src={instagramIcon} alt="Instagram" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                 </a>
                 <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 flex items-center justify-center hover:opacity-80 transition-opacity">
-                  <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
+                  <img src={youtubeIcon} alt="YouTube" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                 </a>
               </div>
             </div>

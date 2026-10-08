@@ -1,4 +1,4 @@
-import { AnimatePresence, animate, motion, useInView, useMotionValue, useScroll, useTransform, useSpring } from "framer-motion";
+import { AnimatePresence, animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { ArrowRight, Star, Shield, Zap, Trophy, CheckCircle2, MapPin, Phone, Mail, Loader2, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -16,13 +16,8 @@ import { contactFormSchema, type ContactFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { socialLinks } from "@/lib/social-links";
 
-import heroVideo from "@assets/copy_3F782478-1E5B-4E71-A065-C58D821ADA74_(1)_(1)_1786510568554.mov";
+import heroVideo from "@assets/auto-gamma-hero-optimized.mp4";
 import heroImage from "@assets/generated_images/cinematic_luxury_dark_car_hero_background_with_red_accents.png";
-import tireImage from "@assets/pngegg_1765179057976.png";
-import detailingImage from "@assets/generated_images/car_detailing_polishing_action_shot.png";
-import ppfImage from "@assets/generated_images/paint_protection_film_application.png";
-import ppfVideo from "@assets/Untitled_design_(4)_1766130916239.mp4";
-import interiorImage from "@assets/generated_images/luxury_car_interior_leather_detailing.png";
 import workVideo1 from "@assets/SaveClip.App_AQMd6NABHBJJB4C0siIEzy325gx5Jd-sBiXBdbMmWREu0866B_1791486691994.mp4";
 import workVideo2 from "@assets/SaveClip.App_AQNFx3Dph_SB8R8atX1DtpJjRrcBW5EFprMZokhn_bsHw4tb0_1791486691997.mp4";
 import workVideo3 from "@assets/SaveClip.App_AQObMcBJiE4eQsQBDIUo5-ZaQgngHhpPvne1PJmfEx9PD5hy2_1791486691997.mp4";
@@ -44,57 +39,91 @@ import serviceDetailingImage from "@assets/service-detailing.webp";
 import serviceCoatingsImage from "@assets/service-coatings.webp";
 import servicePpfWrapsImage from "@assets/service-ppf-wraps.webp";
 import serviceRepairImage from "@assets/service-repair-restoration.webp";
-import pickupIcon from "@assets/generated_images/3d_glossy_red_location_pin_and_car_key.png";
-import diverseIcon from "@assets/generated_images/3d_glossy_red_star_badge.png";
-import economicalIcon from "@assets/generated_images/3d_glossy_red_shield.png";
-import skilledIcon from "@assets/generated_images/3d_glossy_red_wrench_and_gear.png";
-import galleryImage1 from "@assets/stock_images/luxury_car_in_dark_g_18d4fc70.jpg";
-import galleryImage2 from "@assets/stock_images/luxury_car_interior__d9a8634a.jpg";
-import galleryImage3 from "@assets/stock_images/suv_off-road_desert__38198823.jpg";
-import galleryImage4 from "@assets/stock_images/car_interior_detaili_b4d46e1c.jpg";
-import ceramicCoatingImage from "@assets/image_1766127336814.png";
-import carDisplayImage from "@assets/Black_and_Red_Modern_Car_Dealer_Presentation_(1)_1766227724821.png";
-import heroBgImage from "@assets/Black_and_Red_Modern_Car_Dealer_Presentation_(2)_1766236484545.png";
 import facebookIcon from "@assets/facebook_1766217005798.png";
 import instagramIcon from "@assets/—Pngtree—instagram_icon_instagram_logo_vector_3584852_1766216113430.png";
 import youtubeIcon from "@assets/youtube_1766216255122.png";
-import ppfAppImage from "@assets/image_1766729172233.png";
-import shieldIcon from "@assets/image_1766729201482.png";
-import rupeeIcon from "@assets/image_1766729223515.png";
-import toolsIcon from "@assets/image_1766729246340.png";
-import starIcon from "@assets/image_1766729264056.png";
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 60 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } }
 } as const;
 
 const fadeInLeft = {
-  hidden: { opacity: 0, x: -60 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  hidden: { opacity: 0, x: -24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" } }
 } as const;
 
 const fadeInRight = {
-  hidden: { opacity: 0, x: 60 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } }
-} as const;
-
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
+  hidden: { opacity: 0, x: 24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: "easeOut" } }
 } as const;
 
 const stagger = {
-  visible: { transition: { staggerChildren: 0.1 } }
+  visible: { transition: { staggerChildren: 0.06 } }
 } as const;
 
 const staggerFast = {
-  visible: { transition: { staggerChildren: 0.05 } }
+  visible: { transition: { staggerChildren: 0.03 } }
 } as const;
+
+type LazyLoopVideoProps = {
+  src: string;
+  poster?: string;
+  label: string;
+  className: string;
+  controls?: boolean;
+  eagerPoster?: boolean;
+};
+
+function LazyLoopVideo({
+  src,
+  poster,
+  label,
+  className,
+  controls = false,
+  eagerPoster = false,
+}: LazyLoopVideoProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isNearViewport = useInView(videoRef, { margin: "120px" });
+  const [hasEnteredViewport, setHasEnteredViewport] = useState(false);
+
+  useEffect(() => {
+    if (isNearViewport) setHasEnteredViewport(true);
+  }, [isNearViewport]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !hasEnteredViewport) return;
+
+    if (isNearViewport) {
+      void video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [hasEnteredViewport, isNearViewport]);
+
+  return (
+    <video
+      ref={videoRef}
+      src={hasEnteredViewport ? src : undefined}
+      poster={hasEnteredViewport || eagerPoster ? poster : undefined}
+      autoPlay={isNearViewport}
+      loop
+      muted
+      playsInline
+      controls={controls}
+      preload="none"
+      aria-label={label}
+      className={className}
+    />
+  );
+}
 
 // Carousel Component
 function CarouselContent() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const isNearViewport = useInView(carouselRef, { margin: "120px" });
   const reviewsData = [
     { name: "Rajesh Sharma", vehicle: "BMW 7 Series", location: "Mumbai", rating: 5, text: "Absolutely incredible service! My BMW looks brand new after the ceramic coating. The attention to detail is unmatched." },
     { name: "Priya Patel", vehicle: "Mercedes C-Class", location: "Pune", rating: 5, text: "Auto Gamma transformed my car completely. The PPF installation was flawless and the team was very professional." },
@@ -109,11 +138,12 @@ function CarouselContent() {
   ];
 
   useEffect(() => {
+    if (!isNearViewport) return;
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % reviewsData.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isNearViewport, reviewsData.length]);
 
   const itemsPerView = 8;
   const visibleReviews = Array.from({ length: itemsPerView }, (_, i) => 
@@ -121,7 +151,7 @@ function CarouselContent() {
   );
 
   return (
-    <div className="space-y-5">
+    <div ref={carouselRef} className="space-y-5">
       <div className="relative h-[1776px] sm:h-[880px] lg:h-[432px]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -237,14 +267,6 @@ export default function Home() {
     mutation.mutate(data);
   };
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
-  const tireRotation = useTransform(scrollYProgress, [0, 1], [0, 720]);
-  const tireY = useTransform(scrollYProgress, [0, 0.3], [0, 400]);
-  
-  const smoothScrollProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20, mass: 0.5 });
-  const carX = useTransform(smoothScrollProgress, [0, 1], ["0vw", "85vw"]);
-
   return (
     <div className="w-full overflow-x-hidden">
       {/* Hero Section */}
@@ -252,13 +274,12 @@ export default function Home() {
         className="hero-bg relative w-full flex flex-col md:h-screen" 
       >
         <div className="relative w-full aspect-video md:absolute md:inset-0 md:h-full md:aspect-auto">
-          <video 
+          <LazyLoopVideo
             src={heroVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
+            poster={heroImage}
+            label="Auto Gamma featured vehicle"
+            className="h-full w-full object-cover"
+            eagerPoster
           />
         </div>
         
@@ -333,17 +354,12 @@ export default function Home() {
             ].map(({ video, poster }, index) => (
               <motion.article key={video} variants={fadeInUp} className="min-w-0">
                 <div className="relative aspect-[9/17] overflow-hidden border-[0.3px] border-primary/50 bg-neutral-900 flex flex-col items-center justify-center gap-3">
-                  <video
+                  <LazyLoopVideo
                     src={video}
                     poster={poster}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls
-                    preload="metadata"
-                    aria-label={`Featured client video ${index + 1}`}
+                    label={`Featured client video ${index + 1}`}
                     className="absolute inset-0 h-full w-full object-cover"
+                    controls
                   />
                 </div>
               </motion.article>
@@ -492,16 +508,11 @@ export default function Home() {
             ].map((video, index) => (
               <motion.article key={video} variants={fadeInUp} className="min-w-0">
                 <div className="relative aspect-[9/17] overflow-hidden border-[0.3px] border-primary/50 bg-neutral-900">
-                  <video
+                  <LazyLoopVideo
                     src={video}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    controls
-                    preload="metadata"
-                    aria-label={`Work in action video ${index + 1}`}
+                    label={`Work in action video ${index + 1}`}
                     className="absolute inset-0 h-full w-full object-cover"
+                    controls
                   />
                 </div>
               </motion.article>
@@ -717,13 +728,13 @@ export default function Home() {
                   <h4 className="text-white font-poppins font-bold text-base mb-4">Connect With Us</h4>
                   <div className="flex gap-3">
                     <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-facebook">
-                      <img src={facebookIcon} alt="Facebook" className="w-8 h-8 object-contain" />
+                      <img src={facebookIcon} alt="Facebook" loading="lazy" decoding="async" className="w-8 h-8 object-contain" />
                     </a>
                     <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-instagram">
-                      <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
+                      <img src={instagramIcon} alt="Instagram" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                     </a>
                     <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-10 h-10 flex items-center justify-center hover:opacity-80 transition-opacity" data-testid="link-youtube">
-                      <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
+                      <img src={youtubeIcon} alt="YouTube" loading="lazy" decoding="async" className="w-full h-full object-contain" />
                     </a>
                   </div>
                 </div>
