@@ -334,7 +334,7 @@ export default function Home() {
       </section>
 
       {/* Featured Client Stories */}
-      <section id="featured-clients" className="pt-2 pb-2 md:pt-4 md:pb-2 bg-neutral-950 relative">
+      <section id="featured-clients" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative">
         <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto">
           <motion.div
             initial="hidden"
