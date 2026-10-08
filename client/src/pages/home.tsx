@@ -16,6 +16,7 @@ import { contactFormSchema, type ContactFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { socialLinks } from "@/lib/social-links";
 import { serviceCategories } from "@/lib/service-catalog-data";
+import ServicePriceCalculator from "@/components/service-price-calculator";
 
 import heroVideo from "@assets/auto-gamma-hero-full-quality.mp4";
 import heroImage from "@assets/generated_images/cinematic_luxury_dark_car_hero_background_with_red_accents.png";
@@ -541,6 +542,8 @@ export default function Home() {
           <CarouselContent />
         </div>
       </section>
+
+      <ServicePriceCalculator />
 
       {/* Contact Section */}
       <section id="contact" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-900 relative">
