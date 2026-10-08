@@ -37,6 +37,11 @@ import clientVideoPoster1 from "@assets/featured-client-1-poster.jpg";
 import clientVideoPoster2 from "@assets/featured-client-2-poster.jpg";
 import clientVideoPoster3 from "@assets/featured-client-3-poster.jpg";
 import clientVideoPoster4 from "@assets/featured-client-4-poster.jpg";
+import serviceWashingImage from "@assets/service-washing.webp";
+import serviceDetailingImage from "@assets/service-detailing.webp";
+import serviceCoatingsImage from "@assets/service-coatings.webp";
+import servicePpfWrapsImage from "@assets/service-ppf-wraps.webp";
+import serviceRepairImage from "@assets/service-repair-restoration.webp";
 import pickupIcon from "@assets/generated_images/3d_glossy_red_location_pin_and_car_key.png";
 import diverseIcon from "@assets/generated_images/3d_glossy_red_star_badge.png";
 import economicalIcon from "@assets/generated_images/3d_glossy_red_shield.png";
@@ -400,48 +405,51 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerFast}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 items-stretch"
+            className="grid max-w-[1400px] grid-cols-1 items-stretch gap-4 mx-auto md:grid-cols-2 md:gap-6"
           >
             {[
               {
                 title: "Washing & Quick Care",
-                services: ["Washing", "Wash & Shine", "Dressing", "Tar Remover", "Vacuuming"],
+                image: serviceWashingImage,
+                alt: "Washing and quick care services: washing, wash and shine, dressing, tar remover, and vacuuming.",
               },
               {
                 title: "Detailing",
-                services: ["Detailing Interior", "Detailing Exterior", "Detailing Interior + Exterior", "Interior Steam"],
+                image: serviceDetailingImage,
+                alt: "Detailing services: interior detailing, exterior detailing, and interior steam.",
               },
               {
                 title: "Coatings & Protection",
-                services: ["Graphene Coating", "Borophene Coating", "Windshield Glass Coating", "Anti Rust Coating"],
+                image: serviceCoatingsImage,
+                alt: "Coatings and protection services: graphene, borophene, windshield glass, and anti-rust coatings.",
               },
               {
                 title: "Paint Protection Film (PPF)",
-                services: ["Interior PPF", "PPF Maintenance"],
+                image: servicePpfWrapsImage,
+                alt: "Paint protection film and color wrap services: interior PPF, exterior PPF, body wrap, and PPF maintenance.",
               },
               {
                 title: "Repair & Restoration",
-                services: ["Denting Painting", "Glass Polishing"],
+                image: serviceRepairImage,
+                alt: "Professional repair and restoration services: precision dent repair, paint refinishing, windshield polishing, and water-spot removal.",
               },
-            ].map((category) => (
+            ].map((category, index) => (
               <motion.article
                 key={category.title}
                 variants={fadeInUp}
-                className="h-full min-w-0"
+                className={`h-full min-w-0 ${index === 4 ? "md:col-span-2 md:w-1/2 md:justify-self-center" : ""}`}
               >
-                <div className="h-full lg:min-h-[220px] border border-white/10 bg-white/[0.03] p-4 transition-colors duration-300 hover:border-primary/60">
-                  <h3 className="mb-5 font-sora text-base xl:text-sm font-semibold leading-snug normal-case text-white xl:whitespace-nowrap">
-                    {category.title}
-                  </h3>
-                  <ul className="space-y-3">
-                    {category.services.map((service) => (
-                      <li key={service} className="flex items-start gap-3 xl:gap-2 text-sm xl:text-[13px] leading-relaxed text-white/75 xl:whitespace-nowrap">
-                        <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 flex-none bg-primary" />
-                        <span>{service}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <figure className="overflow-hidden border border-white/10 bg-neutral-950">
+                  <img
+                    src={category.image}
+                    alt={category.alt}
+                    width={1920}
+                    height={1072}
+                    loading="lazy"
+                    decoding="async"
+                    className="block h-auto w-full"
+                  />
+                </figure>
               </motion.article>
             ))}
           </motion.div>
