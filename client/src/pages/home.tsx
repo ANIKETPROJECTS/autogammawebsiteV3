@@ -335,7 +335,7 @@ export default function Home() {
 
       {/* Featured Client Stories */}
       <section id="featured-clients" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-950 relative">
-        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto border border-primary">
+        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -362,7 +362,7 @@ export default function Home() {
               { video: clientVideo4, poster: clientVideoPoster4 },
             ].map(({ video, poster }, index) => (
               <motion.article key={video} variants={fadeInUp} className="min-w-0">
-                <div className="relative aspect-[9/17] overflow-hidden border border-white/10 bg-neutral-900 flex flex-col items-center justify-center gap-3">
+                <div className="relative aspect-[9/17] overflow-hidden border border-primary bg-neutral-900 flex flex-col items-center justify-center gap-3">
                   <video
                     src={video}
                     poster={poster}
@@ -386,7 +386,7 @@ export default function Home() {
       <section id="services" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         
-        <div className="w-full max-w-[1400px] px-2 sm:px-4 mx-auto relative z-10 border border-primary">
+        <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -441,7 +441,7 @@ export default function Home() {
                 variants={fadeInUp}
                 className={`h-full min-w-0 ${index === 4 ? "md:col-span-2 md:w-1/2 md:justify-self-center" : ""}`}
               >
-                <figure className="overflow-hidden border border-white/10 bg-neutral-950">
+                <figure className="overflow-hidden border border-primary bg-neutral-950">
                   <img
                     src={category.image}
                     alt={category.alt}
