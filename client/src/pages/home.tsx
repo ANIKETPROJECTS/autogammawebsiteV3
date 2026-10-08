@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { ArrowRight, Star, Shield, Zap, Trophy, CheckCircle2, Play, MapPin, Phone, Mail, Loader2, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import { ArrowRight, Star, Shield, Zap, Trophy, CheckCircle2, MapPin, Phone, Mail, Loader2, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -29,6 +29,14 @@ import videoGlimpse3 from "@assets/SaveVid.Net_AQOsV5pDj_W087f3UYP9VhECz3UgKbQ1x
 import videoGlimpse4 from "@assets/SaveVid.Net_AQOYHI_R4snfehrTDo_tJJSmk7uEZK6nP9rnbYOT6mkEH4IuXJ_1766132518974.mp4";
 import videoGlimpse5 from "@assets/SaveVid.Net_AQP82_8gVpK5rtDdyY5gRX-zzuC3vza-INl2HmFNIQjmRs1gNe_1766132590627.mp4";
 import videoGlimpse6 from "@assets/SaveVid.Net_AQNDoeYV9HVDcEuo094Cyb5Mv_nf3CKBUNi238yrQ_m-wWVngl_1766132646182.mp4";
+import clientVideo1 from "@assets/SaveClip.App_AQMStN2KrwenyUCIS35TWX8gnXh89d5NiK3K2agkcqDzwlkgO_1791474111888.mp4";
+import clientVideo2 from "@assets/SaveClip.App_AQNqjeKMFRvYari-h4SL9gJZiqyVbWT0VDDQLle-8mo7vcSgB_1791474116619.mp4";
+import clientVideo3 from "@assets/SaveClip.App_AQNsQkBr0Qcoucd6v4RlMvm-L5X9xTO6RZQl_XCG7hnlx_R3O_1791474258371.mp4";
+import clientVideo4 from "@assets/SaveClip.App_AQM2G0UiCGb_fHx035z0aucRbJQYhjMsv8XN5lL3xLqY0M9OP_1791474707507.mp4";
+import clientVideoPoster1 from "@assets/featured-client-1-poster.jpg";
+import clientVideoPoster2 from "@assets/featured-client-2-poster.jpg";
+import clientVideoPoster3 from "@assets/featured-client-3-poster.jpg";
+import clientVideoPoster4 from "@assets/featured-client-4-poster.jpg";
 import pickupIcon from "@assets/generated_images/3d_glossy_red_location_pin_and_car_key.png";
 import diverseIcon from "@assets/generated_images/3d_glossy_red_star_badge.png";
 import economicalIcon from "@assets/generated_images/3d_glossy_red_shield.png";
@@ -342,20 +350,26 @@ export default function Home() {
             variants={stagger}
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           >
-            {[1, 2, 3, 4].map((client) => (
-              <motion.article key={client} variants={fadeInUp} className="min-w-0">
+            {[
+              { video: clientVideo1, poster: clientVideoPoster1 },
+              { video: clientVideo2, poster: clientVideoPoster2 },
+              { video: clientVideo3, poster: clientVideoPoster3 },
+              { video: clientVideo4, poster: clientVideoPoster4 },
+            ].map(({ video, poster }, index) => (
+              <motion.article key={video} variants={fadeInUp} className="min-w-0">
                 <div className="relative aspect-[9/17] overflow-hidden border border-white/10 bg-neutral-900 flex flex-col items-center justify-center gap-3">
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70">
-                    <Play className="w-5 h-5 ml-0.5" aria-hidden="true" />
-                  </div>
-                  <span className="text-[10px] sm:text-xs text-white/55 uppercase tracking-[0.18em]">
-                    Video coming soon
-                  </span>
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-sm sm:text-base text-white font-semibold">
-                    Client name
-                  </h3>
+                  <video
+                    src={video}
+                    poster={poster}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    preload="metadata"
+                    aria-label={`Featured client video ${index + 1}`}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
                 </div>
               </motion.article>
             ))}
