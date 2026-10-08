@@ -16,7 +16,7 @@ import { contactFormSchema, type ContactFormData } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { socialLinks } from "@/lib/social-links";
 
-import heroVideo from "@assets/auto-gamma-hero-optimized.mp4";
+import heroVideo from "@assets/auto-gamma-hero-full-quality.mp4";
 import heroImage from "@assets/generated_images/cinematic_luxury_dark_car_hero_background_with_red_accents.png";
 import workVideo1 from "@assets/SaveClip.App_AQMd6NABHBJJB4C0siIEzy325gx5Jd-sBiXBdbMmWREu0866B_1791486691994.mp4";
 import workVideo2 from "@assets/SaveClip.App_AQNFx3Dph_SB8R8atX1DtpJjRrcBW5EFprMZokhn_bsHw4tb0_1791486691997.mp4";
@@ -543,7 +543,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-10 md:py-14 bg-neutral-900 relative">
+      <section id="contact" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-neutral-900 relative">
         <div className="container px-4 mx-auto">
           {/* Header */}
           <motion.div 
@@ -551,14 +551,11 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="text-center mb-6 md:mb-8 space-y-3"
+            className="text-center mb-4 md:mb-5"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
               Contact Us
             </h2>
-            <p className="text-base sm:text-lg text-white/70 max-w-3xl mx-auto font-poppins leading-relaxed">
-              Ready to give your vehicle the treatment it deserves? Reach out to us for appointments, quotes, or any queries.
-            </p>
           </motion.div>
 
           {/* Content Grid */}
@@ -570,7 +567,7 @@ export default function Home() {
             className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start"
           >
             {/* Left: Form */}
-            <motion.div variants={fadeInLeft} className="bg-white/5 border border-white/10 p-5 sm:p-6 rounded-2xl backdrop-blur-sm h-full">
+            <motion.div variants={fadeInLeft} className="bg-white/5 border border-white/10 p-5 sm:p-6 rounded-none backdrop-blur-sm h-full">
               <h3 className="text-xl font-poppins font-bold text-white mb-5">Send Us a Message</h3>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onContactSubmit)} className="space-y-5">
@@ -671,7 +668,7 @@ export default function Home() {
               {/* Map */}
               <motion.div 
                 variants={fadeInUp}
-                className="rounded-2xl overflow-hidden border border-white/10 h-56 sm:h-64"
+                className="rounded-none overflow-hidden border border-white/10 h-56 sm:h-64"
               >
                 <iframe 
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.0961146405354!2d73.30156332346936!3d19.17484898204387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c1c1c1c1c1c1%3A0x0!2sShop%20no.%2016%20%26%2017%2C%20Shreeji%20Parasio%2C%20Badlapur!5e0!3m2!1sen!2sin!4v1234567890123"
@@ -688,7 +685,7 @@ export default function Home() {
               {/* Contact Info Container */}
               <motion.div 
                 variants={fadeInUp}
-                className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-sm flex-1"
+                className="bg-white/5 border border-white/10 p-5 rounded-none backdrop-blur-sm flex-1"
               >
                 {/* Shop Address */}
                 <div className="flex items-start gap-4 mb-4 pb-4 border-b border-white">
