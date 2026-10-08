@@ -2,3 +2,4 @@
 - [Auto Gamma KPI claims](business-kpi-claims.md) — preserve the user-supplied customer, vehicle, and experience figures as marketing claims.
 - [Homepage hero video](homepage-video-performance.md) — preserve original video quality and use deferred playback to reduce work while scrolling.
 - [Hero service ticker sizing](hero-service-ticker.md) — keep the ticker compact with larger white text; text-size changes must not add height.
+- [Mobile homepage layout](mobile-homepage-layout.md) — keep all Celebrity videos, show four review cards stacked, and arrange KPIs in two columns.

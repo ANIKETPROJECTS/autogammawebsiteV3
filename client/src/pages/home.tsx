@@ -165,7 +165,7 @@ function CarouselContent() {
 
   return (
     <div ref={carouselRef} className="space-y-5">
-      <div className="relative h-[480px] sm:h-[880px] lg:h-[432px]">
+      <div className="relative h-[888px] sm:h-[880px] lg:h-[432px]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentIndex}
@@ -173,7 +173,7 @@ function CarouselContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.45, ease: "easeInOut" }}
-            className="absolute inset-0 grid auto-rows-fr grid-cols-2 gap-4 lg:grid-cols-4"
+            className="absolute inset-0 grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
             {visibleReviews.map((review) => (
               <Card key={`${currentIndex}-${review.name}`} className="h-full min-h-0 overflow-hidden rounded-none border-[0.3px] border-primary/50 bg-white/5">
@@ -341,7 +341,7 @@ export default function Home() {
             className="text-center mb-4 md:mb-5"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
-              Celebrity Favorites &amp; Reviews
+              Celebrity Favorites
             </h2>
           </motion.div>
 
@@ -358,7 +358,7 @@ export default function Home() {
               { video: clientVideo3, poster: clientVideoPoster3 },
               { video: clientVideo4, poster: clientVideoPoster4 },
             ].map(({ video, poster }, index) => (
-              <motion.article key={video} variants={fadeInUp} className={`min-w-0 ${index >= 2 ? "hidden sm:block" : ""}`}>
+              <motion.article key={video} variants={fadeInUp} className="min-w-0">
                 <div className="relative aspect-[9/17] overflow-hidden border-[0.3px] border-primary/50 bg-neutral-900 flex flex-col items-center justify-center gap-3">
                   <LazyLoopVideo
                     src={video}
