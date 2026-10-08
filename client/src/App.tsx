@@ -11,7 +11,7 @@ import About from "@/pages/about";
 import PPF from "@/pages/ppf";
 import Services from "@/pages/services";
 import ServiceDetail from "@/pages/service-detail";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 const pageVariants = {
   initial: {
@@ -40,8 +40,9 @@ const pageTransition = {
 function ScrollToTop() {
   const [pathname] = useLocation();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  useLayoutEffect(() => {
+    window.history.scrollRestoration = "manual";
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
 
   return null;
