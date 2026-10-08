@@ -124,6 +124,9 @@ function LazyLoopVideo({
 // Carousel Component
 function CarouselContent() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches
+  );
   const carouselRef = useRef<HTMLDivElement>(null);
   const isNearViewport = useInView(carouselRef, { margin: "120px" });
   const reviewsData = [
@@ -140,6 +143,14 @@ function CarouselContent() {
   ];
 
   useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 639px)");
+    const updateMobileLayout = () => setIsMobile(mobileQuery.matches);
+    updateMobileLayout();
+    mobileQuery.addEventListener("change", updateMobileLayout);
+    return () => mobileQuery.removeEventListener("change", updateMobileLayout);
+  }, []);
+
+  useEffect(() => {
     if (!isNearViewport) return;
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % reviewsData.length);
@@ -147,14 +158,14 @@ function CarouselContent() {
     return () => clearInterval(timer);
   }, [isNearViewport, reviewsData.length]);
 
-  const itemsPerView = 8;
+  const itemsPerView = isMobile ? 4 : 8;
   const visibleReviews = Array.from({ length: itemsPerView }, (_, i) => 
     reviewsData[(currentIndex + i) % reviewsData.length]
   );
 
   return (
     <div ref={carouselRef} className="space-y-5">
-      <div className="relative h-[1776px] sm:h-[880px] lg:h-[432px]">
+      <div className="relative h-[480px] sm:h-[880px] lg:h-[432px]">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentIndex}
@@ -162,7 +173,7 @@ function CarouselContent() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.45, ease: "easeInOut" }}
-            className="absolute inset-0 grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            className="absolute inset-0 grid auto-rows-fr grid-cols-2 gap-4 lg:grid-cols-4"
           >
             {visibleReviews.map((review) => (
               <Card key={`${currentIndex}-${review.name}`} className="h-full min-h-0 overflow-hidden rounded-none border-[0.3px] border-primary/50 bg-white/5">
@@ -347,7 +358,7 @@ export default function Home() {
               { video: clientVideo3, poster: clientVideoPoster3 },
               { video: clientVideo4, poster: clientVideoPoster4 },
             ].map(({ video, poster }, index) => (
-              <motion.article key={video} variants={fadeInUp} className="min-w-0">
+              <motion.article key={video} variants={fadeInUp} className={`min-w-0 ${index >= 2 ? "hidden sm:block" : ""}`}>
                 <div className="relative aspect-[9/17] overflow-hidden border-[0.3px] border-primary/50 bg-neutral-900 flex flex-col items-center justify-center gap-3">
                   <LazyLoopVideo
                     src={video}
@@ -446,7 +457,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-40px" }}
             variants={staggerFast}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4"
           >
             {[
               { value: 5000, suffix: "+", label: "Customers served" },

@@ -60,6 +60,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isMobileMenuOpen]);
   
 
   const navLinks = [
@@ -234,8 +250,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-white"
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+              className="flex h-10 w-10 items-center justify-center text-white transition-colors hover:text-primary lg:hidden"
               data-testid="button-mobile-menu"
             >
               {isMobileMenuOpen ? <X /> : <Menu />}
@@ -248,73 +268,121 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 flex flex-col items-center gap-6 overflow-y-auto bg-black/95 px-4 pb-8 pt-32 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 z-40 bg-black/65 backdrop-blur-[2px] lg:hidden"
           >
-            {navLinks.map((link) => (
-              link.disabled ? (
-                <span
-                  key={link.name}
-                  aria-disabled="true"
-                  className="cursor-default select-none py-2 font-poppins text-lg font-bold text-white"
-                >
-                  {link.name}
-                </span>
-              ) : (
-                <Link 
-                  key={link.name} 
-                  href={link.href}
-                  className="relative group text-lg font-bold text-white cursor-pointer py-2 font-poppins"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                  <span className={`absolute bottom-0 left-0 h-1 bg-primary transition-all duration-300 ease-out ${
-                    location === link.href ? "w-full" : "w-0 group-hover:w-full"
-                  }`}></span>
-                </Link>
-              )
-            ))}
-            {headerSectionLinks.map((link) => (
-              <button
-                key={link.sectionId}
-                type="button"
-                onClick={() => handleSectionNavigation(link.sectionId)}
-                className="relative group cursor-pointer py-2 font-poppins text-lg font-bold text-white"
+            <motion.aside
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.28, ease: "easeInOut" }}
+              onClick={(event) => event.stopPropagation()}
+              className="absolute inset-y-0 right-0 flex h-[100dvh] w-[88vw] max-w-[380px] flex-col overflow-y-auto border-l border-primary/30 bg-neutral-950 px-6 pb-8 pt-24 shadow-2xl shadow-black/70"
+            >
+              <div className="mb-5 border-b border-white/10 pb-4">
+                <p className="font-sora text-[10px] font-semibold uppercase tracking-[0.28em] text-primary">
+                  Auto Gamma
+                </p>
+                <div className="mt-1 flex items-center justify-between">
+                  <h2 className="font-poppins text-base font-bold uppercase tracking-[0.14em] text-white">
+                    Navigation
+                  </h2>
+                  <span className="h-px w-12 bg-primary/70" />
+                </div>
+              </div>
+
+              <nav aria-label="Mobile navigation links" className="flex flex-col">
+                {navLinks.map((link) => (
+                  link.disabled ? (
+                    <span
+                      key={link.name}
+                      aria-disabled="true"
+                      className="flex items-center justify-between border-b border-white/10 py-4 font-poppins text-sm font-semibold tracking-[0.12em] text-white/75"
+                    >
+                      {link.name}
+                    </span>
+                  ) : (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="group flex items-center justify-between border-b border-white/10 py-4 font-poppins text-sm font-semibold tracking-[0.12em] text-white transition-colors hover:text-primary"
+                    >
+                      {link.name}
+                      <ChevronRight size={16} className="text-primary transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  )
+                ))}
+
+                {headerSectionLinks.map((link) => (
+                  <button
+                    key={link.sectionId}
+                    type="button"
+                    onClick={() => handleSectionNavigation(link.sectionId)}
+                    className="group flex w-full items-center justify-between border-b border-white/10 bg-transparent py-4 text-left font-poppins text-sm font-semibold tracking-[0.12em] text-white transition-colors hover:text-primary"
+                  >
+                    {link.name}
+                    <ChevronRight size={16} className="text-primary transition-transform group-hover:translate-x-1" />
+                  </button>
+                ))}
+              </nav>
+
+              <Button
+                className="mt-6 h-11 w-full rounded-none border border-primary bg-primary font-poppins text-sm font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-primary/90"
+                onClick={handleBookNow}
               >
-                {link.name}
-                <span className="absolute bottom-0 left-0 h-1 w-0 bg-primary transition-all duration-300 ease-out group-hover:w-full" />
-              </button>
-            ))}
-            <Button className="bg-primary w-full max-w-xs mt-6 font-bold text-white font-poppins uppercase" onClick={handleBookNow}>
-              SERVICE ENQUIRY
-            </Button>
-            
-            {/* Mobile Contact Info */}
-            <div className="mt-8 text-center text-white/80 text-sm space-y-3 font-poppins">
-              <a href="mailto:info@autogamma.in" className="flex items-center justify-center gap-2 font-medium uppercase">
-                <Mail size={14} />
-                <span>INFO@AUTOGAMMA.IN</span>
-              </a>
-              <a href="tel:+919226882024" className="flex items-center justify-center gap-2 font-medium">
-                <Phone size={14} />
-                <span>+91 92268 82024</span>
-              </a>
-            </div>
-            
-            {/* Mobile Social Icons */}
-            <div className="flex items-center gap-4 mt-6">
-              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
-                <img src={facebookIcon} alt="Facebook" className="w-full h-full object-contain" />
-              </a>
-              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
-                <img src={instagramIcon} alt="Instagram" className="w-full h-full object-contain" />
-              </a>
-              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-9 h-9 flex items-center justify-center hover:opacity-80 transition-opacity">
-                <img src={youtubeIcon} alt="YouTube" className="w-full h-full object-contain" />
-              </a>
-            </div>
+                SERVICE ENQUIRY
+              </Button>
+
+              <div className="mt-7 border-t border-white/10 pt-5">
+                <p className="mb-3 font-sora text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
+                  Contact
+                </p>
+                <div className="space-y-3">
+                  <a href="mailto:info@autogamma.in" className="group flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-primary/40 bg-black text-primary transition-colors group-hover:border-primary">
+                      <Mail size={15} />
+                    </span>
+                    <span className="font-poppins text-sm text-white/85 transition-colors group-hover:text-white">
+                      info@autogamma.in
+                    </span>
+                  </a>
+                  <a href="tel:+919226882024" className="group flex items-center gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-primary/40 bg-black text-primary transition-colors group-hover:border-primary">
+                      <Phone size={15} />
+                    </span>
+                    <span className="font-poppins text-sm text-white/85 transition-colors group-hover:text-white">
+                      +91 92268 82024
+                    </span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <p className="mb-3 font-sora text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
+                  Follow Us
+                </p>
+                <div className="flex items-center gap-3">
+                  <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 p-2 transition-colors hover:border-primary/50 hover:bg-white/5">
+                    <img src={facebookIcon} alt="" className="h-full w-full object-contain" />
+                  </a>
+                  <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 p-2 transition-colors hover:border-primary/50 hover:bg-white/5">
+                    <img src={instagramIcon} alt="" className="h-full w-full object-contain" />
+                  </a>
+                  <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex h-10 w-10 items-center justify-center border border-white/10 bg-black/60 p-2 transition-colors hover:border-primary/50 hover:bg-white/5">
+                    <img src={youtubeIcon} alt="" className="h-full w-full object-contain" />
+                  </a>
+                </div>
+              </div>
+            </motion.aside>
           </motion.div>
         )}
       </AnimatePresence>
