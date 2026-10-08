@@ -343,7 +343,7 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center mb-4 md:mb-5"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-normal font-sans normal-case tracking-normal leading-tight text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-sans normal-case tracking-normal leading-tight text-white">
               Celebrity Favorites &amp; Reviews
             </h2>
           </motion.div>
@@ -396,7 +396,7 @@ export default function Home() {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-2xl sm:text-3xl md:text-4xl font-normal font-sans normal-case tracking-normal leading-tight text-white"
+              className="text-3xl sm:text-4xl md:text-5xl font-medium font-sans normal-case tracking-normal leading-tight text-white"
             >
               Our Craft &amp; Expertise
             </motion.h2>
@@ -647,7 +647,7 @@ export default function Home() {
                   <Button 
                     type="submit"
                     disabled={mutation.isPending}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-base uppercase tracking-widest rounded-full mt-6"
+                    className="w-full bg-primary hover:bg-primary/90 text-white font-poppins font-bold h-11 text-base normal-case tracking-normal rounded-full mt-6"
                     data-testid="button-submit-contact"
                   >
                     {mutation.isPending ? (
@@ -655,7 +655,7 @@ export default function Home() {
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...
                       </>
                     ) : (
-                      "Submit Inquiry"
+                      "Submit Enquiry"
                     )}
                   </Button>
                   <p className="text-center text-white italic text-sm mt-6 -skew-x-6">
