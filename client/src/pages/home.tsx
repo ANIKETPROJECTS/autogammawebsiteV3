@@ -383,7 +383,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Catalogue */}
-      <section id="services" className="pt-0 pb-24 bg-background relative overflow-hidden">
+      <section id="services" className="pt-2 pb-24 md:pt-4 bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         
         <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
@@ -392,7 +392,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={stagger}
-            className="text-center mb-8 md:mb-10 px-4"
+            className="text-center mb-4 md:mb-5 px-4"
           >
             <motion.h2
               variants={fadeInUp}
