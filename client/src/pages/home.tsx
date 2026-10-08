@@ -392,12 +392,14 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={stagger}
-            className="text-center mb-16 space-y-4 px-4"
+            className="text-center mb-8 md:mb-10 px-4"
           >
-            <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-sora font-semibold text-white">
-              OUR <span className="text-primary">SERVICES</span>
+            <motion.h2
+              variants={fadeInUp}
+              className="text-2xl sm:text-3xl md:text-4xl font-light font-sans normal-case tracking-normal leading-tight text-white/85"
+            >
+              Our Craft &amp; Expertise
             </motion.h2>
-            <motion.p variants={fadeInUp} className="text-white text-sm md:text-xl font-medium md:max-w-none max-w-lg mx-auto leading-relaxed md:whitespace-nowrap">Complete automotive care solutions tailored to protect, enhance, and maintain your vehicle's pristine condition</motion.p>
           </motion.div>
 
           <motion.div 
