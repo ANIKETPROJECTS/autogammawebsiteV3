@@ -343,7 +343,7 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center mb-4 md:mb-5"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-light font-sans normal-case tracking-normal leading-tight text-white/85">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-normal font-sans normal-case tracking-normal leading-tight text-white/85">
               Celebrity Favorites &amp; Reviews
             </h2>
           </motion.div>
@@ -383,7 +383,7 @@ export default function Home() {
       </section>
 
       {/* Our Services Catalogue */}
-      <section id="services" className="pt-2 pb-24 md:pt-4 bg-background relative overflow-hidden">
+      <section id="services" className="pt-2 pb-4 md:pt-4 md:pb-5 bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none" />
         
         <div className="w-full max-w-[1600px] px-2 sm:px-4 mx-auto relative z-10">
@@ -396,7 +396,7 @@ export default function Home() {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-2xl sm:text-3xl md:text-4xl font-light font-sans normal-case tracking-normal leading-tight text-white/85"
+              className="text-2xl sm:text-3xl md:text-4xl font-normal font-sans normal-case tracking-normal leading-tight text-white/85"
             >
               Our Craft &amp; Expertise
             </motion.h2>
