@@ -362,7 +362,7 @@ export default function Home() {
               { video: clientVideo4, poster: clientVideoPoster4 },
             ].map(({ video, poster }, index) => (
               <motion.article key={video} variants={fadeInUp} className="min-w-0">
-                <div className="relative aspect-[9/17] overflow-hidden border border-primary bg-neutral-900 flex flex-col items-center justify-center gap-3">
+                <div className="relative aspect-[9/17] overflow-hidden border-[0.5px] border-primary bg-neutral-900 flex flex-col items-center justify-center gap-3">
                   <video
                     src={video}
                     poster={poster}
@@ -441,7 +441,7 @@ export default function Home() {
                 variants={fadeInUp}
                 className={`h-full min-w-0 ${index === 4 ? "md:col-span-2 md:w-1/2 md:justify-self-center" : ""}`}
               >
-                <figure className="overflow-hidden border border-primary bg-neutral-950">
+                <figure className="overflow-hidden border-[0.5px] border-primary bg-neutral-950">
                   <img
                     src={category.image}
                     alt={category.alt}
