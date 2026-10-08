@@ -338,8 +338,8 @@ export default function Home() {
             variants={fadeInUp}
             className="text-center mb-4 md:mb-5"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extralight font-sans normal-case tracking-tight leading-tight text-white/85">
-              Celebrity Favorites
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-light font-sans normal-case tracking-normal leading-tight text-white/85">
+              Celebrity Favorites &amp; Reviews
             </h2>
           </motion.div>
 
