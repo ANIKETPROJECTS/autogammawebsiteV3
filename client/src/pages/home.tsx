@@ -341,11 +341,12 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeInUp}
-            className="text-center mb-4 md:mb-5"
+            className="text-center mb-3 md:mb-4"
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium font-poppins normal-case tracking-normal leading-tight text-white">
               Celebrity Favorites &amp; Reviews
             </h2>
+            <span aria-hidden="true" className="mx-auto mt-0.5 block h-px w-20 bg-primary" />
           </motion.div>
 
           <motion.div
@@ -392,7 +393,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={stagger}
-            className="text-center mb-4 md:mb-5 px-4"
+            className="text-center mb-3 md:mb-4 px-4"
           >
             <motion.h2
               variants={fadeInUp}
@@ -400,6 +401,7 @@ export default function Home() {
             >
               Our Craft &amp; Expertise
             </motion.h2>
+            <span aria-hidden="true" className="mx-auto mt-0.5 block h-px w-20 bg-primary" />
           </motion.div>
 
           <motion.div 
