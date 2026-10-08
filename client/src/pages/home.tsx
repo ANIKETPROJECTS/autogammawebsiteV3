@@ -336,10 +336,10 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-60px" }}
             variants={fadeInUp}
-            className="text-center mb-6 md:mb-8"
+            className="text-center mb-4 md:mb-5"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white font-sora uppercase tracking-wider">
-              FEATURED <span className="text-primary">CLIENTS</span>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-sora uppercase tracking-wider">
+              CELEBRITY <span className="text-primary">CLIENTS</span>
             </h2>
           </motion.div>
 
@@ -348,7 +348,7 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={stagger}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-4 gap-y-2 sm:gap-y-3"
           >
             {[
               { video: clientVideo1, poster: clientVideoPoster1 },
