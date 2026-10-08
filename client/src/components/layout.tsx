@@ -7,6 +7,7 @@ import autoGammaLogo from "@assets/image_1765169951823.png";
 import facebookIcon from "@assets/facebook_1766217005798.png";
 import instagramIcon from "@assets/—Pngtree—instagram_icon_instagram_logo_vector_3584852_1766216113430.png";
 import youtubeIcon from "@assets/youtube_1766216255122.png";
+import whatsappIcon from "@assets/apple_1791496591574.png";
 import { socialLinks } from "@/lib/social-links";
 
 function TireSVG({ className }: { className?: string }) {
@@ -419,6 +420,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
+      <a
+        href="https://wa.me/918080639310?text=Hello%2C%20I%27m%20interested."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp at +91 80806 39310"
+        title="Chat on WhatsApp"
+        className="fixed bottom-2 right-2 z-[60] h-14 w-14 transition-transform duration-200 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:bottom-3 sm:right-3 sm:h-16 sm:w-16"
+      >
+        <img
+          src={whatsappIcon}
+          alt=""
+          className="h-full w-full object-contain"
+          decoding="async"
+        />
+      </a>
     </div>
   );
 }
