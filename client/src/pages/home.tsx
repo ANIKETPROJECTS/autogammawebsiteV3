@@ -73,7 +73,6 @@ type LazyLoopVideoProps = {
   poster?: string;
   label: string;
   className: string;
-  controls?: boolean;
   eagerPoster?: boolean;
 };
 
@@ -82,7 +81,6 @@ function LazyLoopVideo({
   poster,
   label,
   className,
-  controls = false,
   eagerPoster = false,
 }: LazyLoopVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -113,7 +111,6 @@ function LazyLoopVideo({
       loop
       muted
       playsInline
-      controls={controls}
       preload="none"
       aria-label={label}
       className={className}
@@ -365,7 +362,6 @@ export default function Home() {
                     poster={poster}
                     label={`Featured client video ${index + 1}`}
                     className="absolute inset-0 h-full w-full object-cover"
-                    controls
                   />
                 </div>
               </motion.article>
@@ -518,7 +514,6 @@ export default function Home() {
                     src={video}
                     label={`Work in action video ${index + 1}`}
                     className="absolute inset-0 h-full w-full object-cover"
-                    controls
                   />
                 </div>
               </motion.article>
